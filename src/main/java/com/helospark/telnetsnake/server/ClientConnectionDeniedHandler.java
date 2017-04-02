@@ -14,7 +14,7 @@ public class ClientConnectionDeniedHandler {
     public void denyClient(ClientConnectionData clientConnectionData) throws IOException {
         SnakeIO snakeIO = clientConnectionData.snakeIO;
         PrintWriter printWriter = snakeIO.getPrintWriter();
-        printWriter.println("Only one connection allowed");
+        printWriter.println("Too many connections");
         printWriter.flush();
         snakeIO.close();
     }

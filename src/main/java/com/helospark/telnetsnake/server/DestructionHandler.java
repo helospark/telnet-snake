@@ -23,7 +23,7 @@ public class DestructionHandler {
 
     @PostConstruct
     public void destroy() {
-        LOGGER.info("Destruction handler invoced");
+        LOGGER.info("Destruction handler invoked");
         synchronized (closeables) {
             for (Closeable closeable : closeables) {
                 try {

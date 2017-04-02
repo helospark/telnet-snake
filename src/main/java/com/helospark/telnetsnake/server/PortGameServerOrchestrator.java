@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,7 @@ import com.helospark.telnetsnake.server.domain.ClientConnectionData;
 
 @Component
 public class PortGameServerOrchestrator {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PortGameServerOrchestrator.class);
     @Autowired
     private ClientConnectionAllowerHandler clientConnectionAllowerHandler;
     @Autowired
@@ -40,9 +43,11 @@ public class PortGameServerOrchestrator {
                 Socket clientSocket = serverSocket.accept();
                 ClientConnectionData clientConnectionData = clientConnectionDataFactory.createConnectionData(clientSocket);
                 if (isClientAllowedToConnectPredicate.test(connectedClients, clientConnectionData)) {
+                    LOGGER.info("Connection accepted from " + clientConnectionData.clientIp);
                     clientConnectionAllowerHandler.connectClient(clientConnectionData);
                     connectedClients.add(clientConnectionData);
                 } else {
+                    LOGGER.info("Connection denied from " + clientConnectionData.clientIp);
                     clientConnectionDeniedHandler.denyClient(clientConnectionData);
                 }
             } catch (Exception ex) {
