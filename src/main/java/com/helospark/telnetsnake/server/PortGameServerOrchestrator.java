@@ -8,6 +8,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.helospark.telnetsnake.server.domain.ClientConnectionData;
@@ -26,16 +27,13 @@ public class PortGameServerOrchestrator {
     @Autowired
     private ExpiredConnectionFilter expiredConnectionFilter;
     @Autowired
-    private ServerSocketFactory serverSocketFactory;
+    @Qualifier("snakeGameServerSocket")
+    private ServerSocket serverSocket;
     @Autowired
     private ShutdownHandler shutdownHandler;
 
     public void start() {
-        ServerSocket serverSocket = serverSocketFactory.createServerSocket();
-        handleIncomingConnection(serverSocket);
-    }
-
-    private void handleIncomingConnection(ServerSocket serverSocket) {
+        LOGGER.info("Server started");
         boolean isRunning = true;
         List<ClientConnectionData> connectedClients = new ArrayList<>();
         while (isRunning) {

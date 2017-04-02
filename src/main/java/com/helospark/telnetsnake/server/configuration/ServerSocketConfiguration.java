@@ -1,35 +1,31 @@
-package com.helospark.telnetsnake.server;
+package com.helospark.telnetsnake.server.configuration;
 
 import java.net.ServerSocket;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-@Component
-public class ServerSocketFactory {
-    @Autowired
-    private DestructionHandler destructionHandler;
+@Configuration
+public class ServerSocketConfiguration {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServerSocketConfiguration.class);
     @Value("${PORT}")
     private int port;
     @Value("${SERVER_SOCKET_TIMEOUT}")
     private int socketTimeout;
 
+    @Bean(name = "snakeGameServerSocket")
     public ServerSocket createServerSocket() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(socketTimeout);
-            destructionHandler.addCloseableForDestruction(serverSocket);
+            LOGGER.info("Created socket on " + serverSocket.getLocalPort());
             return serverSocket;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    @PostConstruct
-    public void closeSockets() {
-
-    }
 }

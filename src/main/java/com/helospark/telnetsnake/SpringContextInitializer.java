@@ -11,7 +11,7 @@ public class SpringContextInitializer {
     public static void main(String[] args) throws IOException {
         initializeDIFramework();
         GameInitializer daemon = context.getBean(GameInitializer.class);
-        daemon.initializeGame();
+        //        daemon.initializeGame();
     }
 
     private static void initializeDIFramework() {

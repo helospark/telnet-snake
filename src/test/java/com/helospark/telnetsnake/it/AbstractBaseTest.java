@@ -3,6 +3,7 @@ package com.helospark.telnetsnake.it;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -12,9 +13,9 @@ public abstract class AbstractBaseTest extends AbstractTestNGSpringContextTests 
     protected PrintWriter printWriter;
     protected BufferedReader inputReader;
 
-    public void setUp() {
+    public void initialize(ServerSocket serverSocket) {
         try {
-            socket = new Socket("localhost", 7777);
+            socket = new Socket("localhost", serverSocket.getLocalPort());
             printWriter = new PrintWriter(socket.getOutputStream(), true);
             inputReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (Exception e) {

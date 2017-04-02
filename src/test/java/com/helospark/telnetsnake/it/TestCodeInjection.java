@@ -4,28 +4,33 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.File;
+import java.net.ServerSocket;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-@TestPropertySource(locations = "classpath:test_settings.properties", properties = { "PORT=7777" })
+@TestPropertySource(locations = "classpath:test_settings.properties")
 @ContextConfiguration(locations = { "classpath:spring-context.xml" })
+@DirtiesContext
 public class TestCodeInjection extends AbstractBaseTest {
     @Autowired
     private Connection connection;
 
+    @Autowired
+    private ServerSocket serverSocket;
+
     @BeforeMethod
-    @Override
     public void setUp() {
-        super.setUp();
+        super.initialize(serverSocket);
     }
 
     @AfterMethod

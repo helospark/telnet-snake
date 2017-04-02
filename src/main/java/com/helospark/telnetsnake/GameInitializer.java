@@ -5,8 +5,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.helospark.telnetsnake.server.SnakeGameServer;
 import com.helospark.telnetsnake.server.PortGameServerOrchestrator;
+import com.helospark.telnetsnake.server.SnakeGameServer;
 
 @Component
 public class GameInitializer {

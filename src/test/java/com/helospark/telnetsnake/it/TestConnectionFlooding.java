@@ -6,8 +6,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -15,14 +17,17 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-@TestPropertySource(locations = "classpath:test_settings.properties", properties = { "PORT=7777", "MAX_CONNECTION_FROM_SAME_IP=1" })
+@TestPropertySource(locations = "classpath:test_settings.properties", properties = { "MAX_CONNECTION_FROM_SAME_IP=1" })
 @ContextConfiguration(locations = { "classpath:spring-context.xml" })
+@DirtiesContext
 public class TestConnectionFlooding extends AbstractBaseTest {
 
-    @Override
+    @Autowired
+    private ServerSocket serverSocket;
+
     @BeforeMethod
     public void setUp() {
-        super.setUp();
+        super.initialize(serverSocket);
     }
 
     @Override
@@ -37,7 +42,7 @@ public class TestConnectionFlooding extends AbstractBaseTest {
             // GIVEN first connection is created
 
             // WHEN
-            Socket secondConnection = new Socket("localhost", 7777);
+            Socket secondConnection = new Socket("localhost", serverSocket.getLocalPort());
             BufferedReader secondInputReader = new BufferedReader(new InputStreamReader(secondConnection.getInputStream()));
 
             // THEN

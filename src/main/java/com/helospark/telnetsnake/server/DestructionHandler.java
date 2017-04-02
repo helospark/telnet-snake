@@ -1,37 +1,28 @@
 package com.helospark.telnetsnake.server;
 
-import java.io.Closeable;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
+import java.net.ServerSocket;
 
-import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DestructionHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(DestructionHandler.class);
-    private final List<Closeable> closeables = new ArrayList<>();
+    @Autowired
+    private ServerSocket serverSocket;
 
-    public void addCloseableForDestruction(Closeable closeable) {
-        synchronized (closeables) {
-            closeables.add(closeable);
-        }
-    }
-
-    @PostConstruct
+    @PreDestroy
     public void destroy() {
         LOGGER.info("Destruction handler invoked");
-        synchronized (closeables) {
-            for (Closeable closeable : closeables) {
-                try {
-                    closeable.close();
-                } catch (Exception e) {
-                    LOGGER.error("Exception while destroying " + closeable, e);
-                }
-            }
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            LOGGER.error("Unable to destroy server socket", e);
         }
     }
 }

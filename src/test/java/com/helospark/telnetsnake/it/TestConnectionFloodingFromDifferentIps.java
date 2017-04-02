@@ -8,9 +8,11 @@ import static org.mockito.Matchers.any;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.testng.annotations.AfterMethod;
@@ -19,21 +21,24 @@ import org.testng.annotations.Test;
 
 import com.helospark.telnetsnake.game.IpExtractor;
 
-@TestPropertySource(locations = "classpath:test_settings.properties", properties = { "PORT=7777", "MAX_CONNECTIONS=1" })
+@TestPropertySource(locations = "classpath:test_settings.properties", properties = { "MAX_CONNECTIONS=1" })
 @ContextConfiguration(locations = { "classpath:spring-context.xml", "classpath:override-mocks.xml" })
+@DirtiesContext
 public class TestConnectionFloodingFromDifferentIps extends AbstractBaseTest {
 
     @Autowired
     private IpExtractor mockedIpExtractor;
 
-    @Override
+    @Autowired
+    private ServerSocket serverSocket;
+
     @BeforeMethod
     public void setUp() {
         given(mockedIpExtractor.getIp(any(Socket.class)))
                 .willReturn("192.168.0.1")
                 .willReturn("192.168.0.2")
                 .willReturn("192.168.0.3");
-        super.setUp();
+        super.initialize(serverSocket);
     }
 
     @Override
@@ -48,7 +53,7 @@ public class TestConnectionFloodingFromDifferentIps extends AbstractBaseTest {
             // GIVEN first connection is created
 
             // WHEN
-            Socket secondConnection = new Socket("localhost", 7777);
+            Socket secondConnection = new Socket("localhost", serverSocket.getLocalPort());
             BufferedReader secondInputReader = new BufferedReader(new InputStreamReader(secondConnection.getInputStream()));
 
             // THEN
