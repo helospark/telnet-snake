@@ -20,6 +20,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.helospark.telnetsnake.game.IpExtractor;
+import com.helospark.telnetsnake.server.socket.ServerSocketProvider;
 
 @TestPropertySource(locations = "classpath:test_settings.properties", properties = { "MAX_CONNECTIONS=1" })
 @ContextConfiguration(locations = { "classpath:spring-context.xml", "classpath:override-mocks.xml" })
@@ -30,10 +31,13 @@ public class TestConnectionFloodingFromDifferentIps extends AbstractBaseTest {
     private IpExtractor mockedIpExtractor;
 
     @Autowired
+    private ServerSocketProvider serverSocketProvider;
+
     private ServerSocket serverSocket;
 
     @BeforeMethod
     public void setUp() {
+        serverSocket = serverSocketProvider.provideActiveServerSocket();
         given(mockedIpExtractor.getIp(any(Socket.class)))
                 .willReturn("192.168.0.1")
                 .willReturn("192.168.0.2")

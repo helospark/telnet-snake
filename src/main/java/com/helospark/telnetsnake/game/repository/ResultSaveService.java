@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.helospark.telnetsnake.game.domain.SnakeGameResultDto;
@@ -14,6 +15,7 @@ import com.helospark.telnetsnake.game.repository.logfile.ResultToFileSaver;
 @Component
 public class ResultSaveService {
     @Autowired
+    @Lazy
     private Connection connection;
     @Autowired
     private ResultToFileSaver resultToFileSaver;

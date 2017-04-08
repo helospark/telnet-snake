@@ -8,10 +8,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.helospark.telnetsnake.server.domain.ClientConnectionData;
+import com.helospark.telnetsnake.server.socket.ServerSocketProvider;
 
 @Component
 public class PortGameServerOrchestrator {
@@ -27,8 +27,7 @@ public class PortGameServerOrchestrator {
     @Autowired
     private ExpiredConnectionFilter expiredConnectionFilter;
     @Autowired
-    @Qualifier("snakeGameServerSocket")
-    private ServerSocket serverSocket;
+    private ServerSocketProvider serverSocketProvider;
     @Autowired
     private ShutdownHandler shutdownHandler;
 
@@ -38,6 +37,7 @@ public class PortGameServerOrchestrator {
         List<ClientConnectionData> connectedClients = new ArrayList<>();
         while (isRunning) {
             try {
+                ServerSocket serverSocket = serverSocketProvider.provideActiveServerSocket();
                 Socket clientSocket = serverSocket.accept();
                 ClientConnectionData clientConnectionData = clientConnectionDataFactory.createConnectionData(clientSocket);
                 if (isClientAllowedToConnectPredicate.test(connectedClients, clientConnectionData)) {

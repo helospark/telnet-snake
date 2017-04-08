@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.helospark.telnetsnake.game.domain.SnakeGameResultDto;
@@ -17,6 +18,7 @@ import com.helospark.telnetsnake.game.domain.SnakeGameResultDto;
 @Component
 public class TopListService {
     @Autowired
+    @Lazy
     private Connection connection;
 
     public List<SnakeGameResultDto> getTopList(int limit) {

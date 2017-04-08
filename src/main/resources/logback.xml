@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="PATTERN"
+		value="%d{HH:mm:ss.SSS} [%thread] %level [user_ip=%mdc{user_ip}] %logger - %msg %n" />
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>${PATTERN}</Pattern>
+		</encoder>
+	</appender>
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>${user.home}/database.log</file>
+		<append>false</append>
+		<encoder>
+			<Pattern>${PATTERN}</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ASYNC_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="FILE" />
+	</appender>
+
+	<root>
+		<level value="INFO" />
+		<appender-ref ref="ASYNC_FILE_APPENDER" />
+	</root>
+</configuration>
