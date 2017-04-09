@@ -1,6 +1,6 @@
 package com.helospark.telnetsnake.server.game.badips.domain;
 
-import wiremock.com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BadIpsResponse {
     @JsonProperty("err")

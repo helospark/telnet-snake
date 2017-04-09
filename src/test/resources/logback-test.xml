@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="PATTERN"
+		value="%d{HH:mm:ss.SSS} [%thread] %level [user_ip=%mdc{user_ip}] %logger - %msg %n" />
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<Pattern>${PATTERN}</Pattern>
+		</encoder>
+	</appender>
+
+	<root>
+		<level value="INFO" />
+        <appender-ref ref="CONSOLE" />
+	</root>
+</configuration>

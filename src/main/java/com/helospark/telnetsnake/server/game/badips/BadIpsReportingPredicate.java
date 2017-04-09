@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.helospark.telnetsnake.server.game.badips.predicate.BadIpsDataNotEmptyPredicate;
 import com.helospark.telnetsnake.server.game.badips.predicate.BadIpsIsNumberOfPriorConnectionsLargerThanThresholdPredicate;
 import com.helospark.telnetsnake.server.game.badips.predicate.BadIpsReportingEnabledPredicate;
 import com.helospark.telnetsnake.server.game.badips.predicate.BadIpsWhitelistContainingPredicate;
@@ -18,10 +19,13 @@ public class BadIpsReportingPredicate implements Predicate<SnakeGameResultDto> {
     private BadIpsWhitelistContainingPredicate whitelistContainingPredicate;
     @Autowired
     private BadIpsIsNumberOfPriorConnectionsLargerThanThresholdPredicate numberOfConnectionMoreThanThreshold;
+    @Autowired
+    private BadIpsDataNotEmptyPredicate badIpsDataNotEmptyPredicate;
 
     @Override
     public boolean test(SnakeGameResultDto snakeGameResultDto) {
         return badIpsReportingEnabledPredicate.test(snakeGameResultDto) &&
+                badIpsDataNotEmptyPredicate.test(snakeGameResultDto) &&
                 !whitelistContainingPredicate.test(snakeGameResultDto.getIp()) &&
                 numberOfConnectionMoreThanThreshold.test(snakeGameResultDto);
     }

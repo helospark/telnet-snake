@@ -1,8 +1,8 @@
 package com.helospark.telnetsnake.repository;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +32,7 @@ public class ResultSaveService {
             PreparedStatement prepareStatement = connection.prepareStatement(update);
             prepareStatement.setString(1, snakeGameResultDto.getIp());
             prepareStatement.setInt(2, snakeGameResultDto.getPoints());
-            prepareStatement.setDate(3, new Date(new java.util.Date().getTime()));
+            prepareStatement.setTimestamp(3, new Timestamp(new java.util.Date().getTime()));
             prepareStatement.setString(4, databaseUserInputContent);
             prepareStatement.executeUpdate();
         } catch (Exception e) {

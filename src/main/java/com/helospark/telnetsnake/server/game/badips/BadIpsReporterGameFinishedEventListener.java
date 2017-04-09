@@ -10,11 +10,13 @@ import com.helospark.telnetsnake.server.game.domain.SnakeGameResultDto;
 public class BadIpsReporterGameFinishedEventListener implements GameFinishedEventListener {
     @Autowired
     private BadIpsReportingPredicate badIpsReportingPredicate;
+    @Autowired
+    private BadIpsReportingService badIpsReportingService;
 
     @Override
     public void onGameFinishedEvent(SnakeGameResultDto snakeGameResultDto) {
         if (badIpsReportingPredicate.test(snakeGameResultDto)) {
-
+            badIpsReportingService.report(snakeGameResultDto.getIp());
         }
     }
 

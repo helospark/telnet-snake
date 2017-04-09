@@ -1,8 +1,8 @@
 package com.helospark.telnetsnake.repository;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -21,7 +21,7 @@ public class ResultSetConverter {
         while (resultSet.next()) {
             String ip = resultSet.getString("ip");
             int points = resultSet.getInt("points");
-            Date date = resultSet.getDate("date");
+            Timestamp date = resultSet.getTimestamp("date");
             String userInput = resultSet.getString("userInput");
             result.add(SnakeGameResultDto.builder()
                     .withAllUserInputs(userInput)
@@ -33,7 +33,7 @@ public class ResultSetConverter {
         return result;
     }
 
-    private LocalDateTime convertDate(Date date) {
+    private LocalDateTime convertDate(Timestamp date) {
         Instant instant = Instant.ofEpochMilli(date.getTime());
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }

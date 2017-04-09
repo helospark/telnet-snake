@@ -1,5 +1,7 @@
 package com.helospark.telnetsnake.server.game;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +21,14 @@ public class GameFinishedHook {
     private SnakeDataSender snakeDataSender;
     @Autowired
     private ResultSaveService resultSaveService;
+    @Autowired
+    private List<GameFinishedEventListener> gameFinishedListeners;
 
     public void onGameFinished(SnakeIO snakeIO, SnakeGameSession domain) {
         String currentUserIp = ipExtractor.getIp(snakeIO.getSocket());
         SnakeGameResultDto snakeGameResultDto = createResultObject(currentUserIp, domain.points, domain.allUserInputs.toString());
         resultSaveService.saveResult(snakeGameResultDto);
-
+        gameFinishedListeners.forEach(listener -> listener.onGameFinishedEvent(snakeGameResultDto));
         snakeDataSender.sendFinalResult(currentUserIp, domain.points, snakeIO.getPrintWriter());
         snakeIO.close();
         LOGGER.info("Connection closed for " + currentUserIp);
