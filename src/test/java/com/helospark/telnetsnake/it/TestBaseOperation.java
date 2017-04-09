@@ -17,7 +17,6 @@ import com.helospark.telnetsnake.server.socket.ServerSocketProvider;
 
 @TestPropertySource(locations = "classpath:test_settings.properties")
 @ContextConfiguration(locations = { "classpath:spring-context.xml" })
-//@DirtiesContext
 public class TestBaseOperation extends AbstractBaseTest {
     private static final String EXPECTED_FIRST_FRAME_WITHOUT_FOOD = "" +
             "Telnet snake! Use w,a,s,d,q commands (may need to press enter to flush)\n" +

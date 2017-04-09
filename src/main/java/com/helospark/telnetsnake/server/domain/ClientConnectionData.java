@@ -4,7 +4,7 @@ import java.net.Socket;
 
 import javax.annotation.Generated;
 
-import com.helospark.telnetsnake.game.domain.SnakeIO;
+import com.helospark.telnetsnake.server.game.domain.SnakeIO;
 
 public class ClientConnectionData {
     public Socket clientSocket;

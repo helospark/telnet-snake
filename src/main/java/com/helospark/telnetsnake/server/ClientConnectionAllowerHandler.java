@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import com.helospark.telnetsnake.game.SnakeGameOrchestrator;
 import com.helospark.telnetsnake.server.domain.ClientConnectionData;
+import com.helospark.telnetsnake.server.game.SnakeGameOrchestrator;
 
 @Component
 public class ClientConnectionAllowerHandler {

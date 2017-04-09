@@ -21,6 +21,7 @@
 
 	<root>
 		<level value="INFO" />
+        <appender-ref ref="CONSOLE" />
 		<appender-ref ref="ASYNC_FILE_APPENDER" />
 	</root>
 </configuration>

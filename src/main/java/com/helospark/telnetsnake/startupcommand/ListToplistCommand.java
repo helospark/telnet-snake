@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.helospark.telnetsnake.StartupCommand;
-import com.helospark.telnetsnake.game.domain.SnakeGameResultDto;
-import com.helospark.telnetsnake.game.repository.TopListService;
+import com.helospark.telnetsnake.repository.TopListService;
+import com.helospark.telnetsnake.server.game.domain.SnakeGameResultDto;
 
 @Component
 public class ListToplistCommand implements StartupCommand {

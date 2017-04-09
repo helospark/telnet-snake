@@ -5,8 +5,8 @@ import java.io.PrintWriter;
 
 import org.springframework.stereotype.Component;
 
-import com.helospark.telnetsnake.game.domain.SnakeIO;
 import com.helospark.telnetsnake.server.domain.ClientConnectionData;
+import com.helospark.telnetsnake.server.game.domain.SnakeIO;
 
 @Component
 public class ClientConnectionDeniedHandler {

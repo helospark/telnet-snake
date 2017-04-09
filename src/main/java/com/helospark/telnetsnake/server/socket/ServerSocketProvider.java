@@ -23,4 +23,8 @@ public class ServerSocketProvider {
         }
         return this.serverSocket;
     }
+
+    public boolean hasActiveSocket() {
+        return this.serverSocket != null;
+    }
 }
