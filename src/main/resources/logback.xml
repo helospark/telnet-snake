@@ -9,7 +9,7 @@
 	</appender>
 	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
 		<file>/var/log/telnet-snake/gameplay.log</file>
-		<append>false</append>
+		<append>true</append>
 		<encoder>
 			<Pattern>${PATTERN}</Pattern>
 		</encoder>
