@@ -55,4 +55,16 @@ public class MostRecentGamesService {
     private Date convertDate(LocalDate localDate) {
         return new Date(localDate.atStartOfDay(ZoneOffset.systemDefault()).toInstant().toEpochMilli());
     }
+
+    public List<SnakeGameResultDto> getAllWithoutLimit() {
+        try {
+            String update = "SELECT * FROM snake_game_result ORDER BY date DESC";
+            Statement selectStatement = connection.createStatement();
+            ResultSet resultSet = selectStatement.executeQuery(update);
+            return resultSetConverter.convert(resultSet);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return emptyList();
+        }
+    }
 }

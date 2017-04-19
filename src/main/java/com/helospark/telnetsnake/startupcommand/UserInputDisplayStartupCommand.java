@@ -17,7 +17,12 @@ public class UserInputDisplayStartupCommand implements StartupCommand {
 
     @Override
     public void execute(List<String> args) {
-        List<SnakeGameResultDto> mostRecent = mostRecentGamesService.getMostRecentLimitedBy(10);
+        List<SnakeGameResultDto> mostRecent;
+        if (args.contains("-l")) {
+            mostRecent = mostRecentGamesService.getMostRecentLimitedBy(10);
+        } else {
+            mostRecent = mostRecentGamesService.getAllWithoutLimit();
+        }
         mostRecent.stream()
                 .forEach(game -> display(game));
     }
