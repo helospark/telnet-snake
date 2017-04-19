@@ -93,4 +93,5 @@ Under environment/fail2ban folder I have defined 3 filters
  - Too many accepted connection (repeated disconnect - connect)
  - Too many denied connection (continuously connecting)
  - Too many exception (if a user found a way to get exceptions from this application, that's a problem, so we ban them)
+
 Also append the content of jail.conf at the end of you fail2ban's jail.conf.
