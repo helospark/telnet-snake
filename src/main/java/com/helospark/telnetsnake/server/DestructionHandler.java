@@ -1,7 +1,6 @@
 package com.helospark.telnetsnake.server;
 
 import java.net.ServerSocket;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.annotation.PreDestroy;
@@ -9,9 +8,9 @@ import javax.annotation.PreDestroy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import com.helospark.telnetsnake.repository.configuration.ConnectionProvider;
 import com.helospark.telnetsnake.server.socket.ServerSocketProvider;
 
 @Component
@@ -20,8 +19,7 @@ public class DestructionHandler {
     @Autowired
     private ServerSocketProvider serverSocketProvider;
     @Autowired
-    @Lazy
-    private Connection connection;
+    private ConnectionProvider connectionProvider;
 
     @PreDestroy
     public void destroy() {
@@ -35,7 +33,9 @@ public class DestructionHandler {
             LOGGER.error("Unable to destroy server socket", e);
         }
         try {
-            connection.close();
+            if (connectionProvider.isInitialized()) {
+                connectionProvider.get().close();
+            }
         } catch (SQLException e) {
             LOGGER.error("Unable to destroy database connection", e);
         }

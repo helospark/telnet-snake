@@ -1,5 +1,8 @@
 package com.helospark.telnetsnake.it.configuration;
 
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import com.helospark.telnetsnake.repository.ClassPathFileReader;
+import com.helospark.telnetsnake.repository.configuration.ConnectionProvider;
 
 @Configuration
 public class InMemoryDatabaseConfiguration {
@@ -22,7 +26,14 @@ public class InMemoryDatabaseConfiguration {
 
     @Bean
     @Primary
-    public Connection getConnection() throws SQLException {
+    public ConnectionProvider getConnection() throws SQLException {
+        ConnectionProvider connectionProvider = mock(ConnectionProvider.class);
+        given(connectionProvider.get()).willReturn(createMockConnection());
+        return connectionProvider;
+    }
+
+    @Bean
+    public Connection createMockConnection() throws SQLException {
         String url = "jdbc:h2:mem:test";
         Connection connection = DriverManager.getConnection(url);
         initializeConnection(connection);

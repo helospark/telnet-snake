@@ -69,6 +69,7 @@ At the moment the installation can only be done manually, the following steps ar
 Your first (and usually the last) step should be to check logs:
 
          cat /var/log/telnet-snake/gameplay.log
+         cat /var/log/telnet-snake/general.log
 
 If there are no logs, make sure that `/var/log/telnet-snake/` location is writable by the user who is running the application.
 

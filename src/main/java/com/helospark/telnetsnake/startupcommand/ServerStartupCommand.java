@@ -8,15 +8,19 @@ import org.springframework.stereotype.Component;
 
 import com.helospark.telnetsnake.StartupCommand;
 import com.helospark.telnetsnake.server.PortGameServerOrchestrator;
+import com.helospark.telnetsnake.server.ShutdownListener;
 import com.helospark.telnetsnake.server.SnakeGameServer;
 
 @Component
 public class ServerStartupCommand implements StartupCommand {
     @Autowired
     private PortGameServerOrchestrator portGameServer;
+    @Autowired
+    private ShutdownListener shutdownListener;
 
     @Override
     public void execute(List<String> args) {
+        shutdownListener.startListeningForShutdown();
         Thread thread = new Thread(new SnakeGameServer(portGameServer));
         thread.start();
     }

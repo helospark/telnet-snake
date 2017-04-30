@@ -2,7 +2,6 @@ package com.helospark.telnetsnake.repository;
 
 import static java.util.Collections.emptyList;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,16 +11,15 @@ import java.time.ZoneOffset;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import com.helospark.telnetsnake.repository.configuration.ConnectionProvider;
 import com.helospark.telnetsnake.server.game.domain.SnakeGameResultDto;
 
 @Component
 public class MostRecentGamesService {
     @Autowired
-    @Lazy
-    private Connection connection;
+    private ConnectionProvider connectionProvider;
 
     @Autowired
     private ResultSetConverter resultSetConverter;
@@ -29,7 +27,7 @@ public class MostRecentGamesService {
     public List<SnakeGameResultDto> getMostRecentLimitedBy(int limit) {
         try {
             String update = "SELECT * FROM snake_game_result ORDER BY date DESC";
-            Statement selectStatement = connection.createStatement();
+            Statement selectStatement = connectionProvider.get().createStatement();
             selectStatement.setMaxRows(limit);
             ResultSet resultSet = selectStatement.executeQuery(update);
             return resultSetConverter.convert(resultSet);
@@ -42,7 +40,7 @@ public class MostRecentGamesService {
     public List<SnakeGameResultDto> getMostRecentGamesAfterDate(LocalDate localDate) {
         try {
             String sql = "SELECT * FROM snake_game_result ORDER BY date DESC WHERE date > ?";
-            PreparedStatement selectStatement = connection.prepareStatement(sql);
+            PreparedStatement selectStatement = connectionProvider.get().prepareStatement(sql);
             selectStatement.setDate(1, convertDate(localDate));
             ResultSet resultSet = selectStatement.executeQuery(sql);
             return resultSetConverter.convert(resultSet);
@@ -59,7 +57,7 @@ public class MostRecentGamesService {
     public List<SnakeGameResultDto> getAllWithoutLimit() {
         try {
             String update = "SELECT * FROM snake_game_result ORDER BY date DESC";
-            Statement selectStatement = connection.createStatement();
+            Statement selectStatement = connectionProvider.get().createStatement();
             ResultSet resultSet = selectStatement.executeQuery(update);
             return resultSetConverter.convert(resultSet);
         } catch (Exception e) {

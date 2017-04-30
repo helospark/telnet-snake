@@ -30,12 +30,14 @@ public class PortGameServerOrchestrator {
     private ServerSocketProvider serverSocketProvider;
     @Autowired
     private ShutdownHandler shutdownHandler;
+    @Autowired
+    private GlobalIsRunningPredicate isRunningPredicate;
 
     public void start() {
         LOGGER.info("Server started");
         boolean isRunning = true;
         List<ClientConnectionData> connectedClients = new ArrayList<>();
-        while (isRunning) {
+        while (isRunningPredicate.test()) {
             try {
                 ServerSocket serverSocket = serverSocketProvider.provideActiveServerSocket();
                 Socket clientSocket = serverSocket.accept();
@@ -53,6 +55,7 @@ public class PortGameServerOrchestrator {
             }
         }
         shutdownHandler.stopGames(connectedClients);
+        LOGGER.info("Shutdown complete");
     }
 
 }

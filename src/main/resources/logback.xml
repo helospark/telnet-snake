@@ -2,26 +2,51 @@
 <configuration>
 	<property name="PATTERN"
 		value="%d{HH:mm:ss.SSS} [%thread] %level [user_ip=%mdc{user_ip}] %logger - %msg %n" />
+	<!-- Console log -->
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<Pattern>${PATTERN}</Pattern>
 		</encoder>
 	</appender>
-	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+
+    <!-- Gameplay log -->
+	<appender name="GAMEPLAY_FILE" class="ch.qos.logback.core.FileAppender">
 		<file>/var/log/telnet-snake/gameplay.log</file>
 		<append>true</append>
 		<encoder>
 			<Pattern>${PATTERN}</Pattern>
 		</encoder>
 	</appender>
-
-	<appender name="ASYNC_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
-		<appender-ref ref="FILE" />
+	<appender name="ASYNC_GAMEPLAY_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+		<appender-ref ref="GAMEPLAY_FILE" />
 	</appender>
+	
+	<!-- General log -->
+    <appender name="GENERAL_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>/var/log/telnet-snake/general.log</file>
+        <append>true</append>
+        <encoder>
+            <Pattern>${PATTERN}</Pattern>
+        </encoder>
+    </appender>
+    <appender name="ASYNC_GENERAL_FILE_APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="GENERAL_FILE" />
+    </appender>
 
-	<root>
-		<level value="INFO" />
-<!--         <appender-ref ref="CONSOLE" /> -->
-		<appender-ref ref="ASYNC_FILE_APPENDER" />
-	</root>
+    <root>
+    </root>
+
+    <!-- Settings per packages -->
+    <logger name="com.helospark.telnetsnake.server.game" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ASYNC_GAMEPLAY_FILE_APPENDER" />
+    </logger>
+    <root>
+        <level value="INFO" />
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ASYNC_GENERAL_FILE_APPENDER" />
+    </root>
+    
+
 </configuration>

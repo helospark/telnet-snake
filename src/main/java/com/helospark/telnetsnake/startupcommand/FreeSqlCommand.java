@@ -2,7 +2,6 @@ package com.helospark.telnetsnake.startupcommand;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,12 +13,13 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.helospark.telnetsnake.StartupCommand;
+import com.helospark.telnetsnake.repository.configuration.ConnectionProvider;
 
 @Component
 public class FreeSqlCommand implements StartupCommand {
     @Autowired
     @Lazy
-    private Connection connection;
+    private ConnectionProvider connectionProvider;
 
     @Override
     public void execute(List<String> args) {
@@ -44,7 +44,7 @@ public class FreeSqlCommand implements StartupCommand {
     }
 
     private void executeSql(String sql) throws SQLException {
-        Statement statement = connection.createStatement();
+        Statement statement = connectionProvider.get().createStatement();
         boolean hasResultSet = statement.execute(sql);
         if (hasResultSet) {
             ResultSet result = statement.getResultSet();

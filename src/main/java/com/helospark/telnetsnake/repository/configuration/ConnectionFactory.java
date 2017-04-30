@@ -9,27 +9,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 
 import com.helospark.telnetsnake.repository.ClassPathFileReader;
 
-@Configuration
-public class RepositoryConfiguration {
-    private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryConfiguration.class);
+@Component
+public class ConnectionFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionFactory.class);
     @Autowired
     private ClassPathFileReader classPathFileReader;
 
     @Value("${DATABASE_FILE_PATH}")
     private String databaseFilePath;
 
-    @Bean(name = "databaseConnection")
-    @Lazy
     public Connection configureRepository() {
         try {
             LOGGER.info("Initializing database connection...");
-            String url = "jdbc:h2:" + databaseFilePath + ";AUTO_SERVER=TRUE";
+            String url = "jdbc:h2:" + databaseFilePath + ";AUTO_SERVER=TRUE;retention_time=1000";
             Connection connection = DriverManager.getConnection(url);
             initializeConnection(connection);
             LOGGER.info("Database connection initialized");

@@ -31,7 +31,7 @@ public class GameFinishedHook {
         gameFinishedListeners.forEach(listener -> listener.onGameFinishedEvent(snakeGameResultDto));
         snakeDataSender.sendFinalResult(currentUserIp, domain.points, snakeIO.getPrintWriter());
         snakeIO.close();
-        LOGGER.info("Connection closed for " + currentUserIp);
+        LOGGER.info("Game finished with " + currentUserIp);
     }
 
     private SnakeGameResultDto createResultObject(String ip, int points, String userInput) {

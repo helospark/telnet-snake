@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.helospark.telnetsnake.server.GlobalIsRunningPredicate;
 import com.helospark.telnetsnake.server.game.domain.SnakeGameSession;
 
 @Component
@@ -14,8 +15,13 @@ public class GameOverPredicate {
     private int noMovementTimeout;
     @Autowired
     private IsSnakeCollidedWithItselfPredicate isSnakeCollidedWithItselfPredicate;
+    @Autowired
+    private GlobalIsRunningPredicate isRunningPredicate;
 
     public boolean checkGameOver(SnakeGameSession domain, String userInput, int numberOfStepsSinceMovement) {
+        if (!isRunningPredicate.test()) {
+            return true;
+        }
         boolean isSnakeCollidedWithItself = isSnakeCollidedWithItselfPredicate.test(domain.snake);
         if (isSnakeCollidedWithItself) {
             return true;
