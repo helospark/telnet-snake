@@ -10,5 +10,12 @@
     <bean primary="true" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg index="0" value="com.helospark.telnetsnake.server.game.IpExtractor" />
     </bean>
+    <bean primary="true" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg index="0" value="com.helospark.telnetsnake.startupcommand.help.SocketFactory" />
+    </bean>
+    <bean primary="true" class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg index="0" value="com.helospark.telnetsnake.output.ScreenWriter" />
+    </bean>
+    
 
 </beans>

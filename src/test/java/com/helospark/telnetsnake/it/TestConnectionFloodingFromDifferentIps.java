@@ -25,7 +25,7 @@ import com.helospark.telnetsnake.server.socket.ServerSocketProvider;
 @TestPropertySource(locations = "classpath:test_settings.properties", properties = { "MAX_CONNECTIONS=1" })
 @ContextConfiguration(locations = { "classpath:spring-context.xml", "classpath:override-mocks.xml" })
 @DirtiesContext
-public class TestConnectionFloodingFromDifferentIps extends AbstractBaseTest {
+public class TestConnectionFloodingFromDifferentIps extends StartGameAbstractBaseTest {
 
     @Autowired
     private IpExtractor mockedIpExtractor;

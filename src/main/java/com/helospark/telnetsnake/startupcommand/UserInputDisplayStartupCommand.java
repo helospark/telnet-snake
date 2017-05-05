@@ -1,12 +1,14 @@
 package com.helospark.telnetsnake.startupcommand;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.helospark.telnetsnake.StartupCommand;
+import com.beust.jcommander.JCommander;
+import com.helospark.telnetsnake.output.ScreenWriter;
+import com.helospark.telnetsnake.parameters.DisplayGamesParameters;
 import com.helospark.telnetsnake.repository.MostRecentGamesService;
 import com.helospark.telnetsnake.server.game.domain.SnakeGameResultDto;
 
@@ -14,28 +16,38 @@ import com.helospark.telnetsnake.server.game.domain.SnakeGameResultDto;
 public class UserInputDisplayStartupCommand implements StartupCommand {
     @Autowired
     private MostRecentGamesService mostRecentGamesService;
+    @Autowired
+    private ScreenWriter screenWriter;
 
     @Override
-    public void execute(List<String> args) {
+    public void execute(Object commandObject) {
+        DisplayGamesParameters command = (DisplayGamesParameters) commandObject;
+
         List<SnakeGameResultDto> mostRecent;
-        if (args.contains("-l")) {
+        if (command.getLimit().isPresent()) {
             mostRecent = mostRecentGamesService.getMostRecentLimitedBy(10);
         } else {
             mostRecent = mostRecentGamesService.getAllWithoutLimit();
         }
-        mostRecent.stream()
-                .forEach(game -> display(game));
+        mostRecent.stream().forEach(game -> display(game));
     }
 
     private void display(SnakeGameResultDto game) {
-        System.out.println(game.getIp() + "\t" + game.getLocalDateTime() + "\t" + game.getPoints());
-        System.out.println(game.getAllUserInputs());
-        System.out.println("------------");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(game.getIp() + "\t" + game.getLocalDateTime() + "\t" + game.getPoints() + "\n");
+        stringBuilder.append(game.getAllUserInputs() + "\n");
+        stringBuilder.append("------------" + "\n");
+        screenWriter.printlnToScreen(stringBuilder.toString());
     }
 
     @Override
-    public boolean canHandle(Optional<String> commandName) {
-        return commandName.isPresent() && commandName.get().equals("display-most-recent");
+    public boolean canHandle(JCommander jCommander) {
+        return Objects.equals(jCommander.getParsedCommand(), DisplayGamesParameters.COMMAND_NAME);
+    }
+
+    @Override
+    public Object createCommandObject() {
+        return new DisplayGamesParameters();
     }
 
 }

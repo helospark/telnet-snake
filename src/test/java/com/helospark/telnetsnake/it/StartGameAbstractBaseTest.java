@@ -1,7 +1,5 @@
 package com.helospark.telnetsnake.it;
 
-import static java.util.Collections.emptyList;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -11,9 +9,9 @@ import java.net.Socket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
-import com.helospark.telnetsnake.startupcommand.StartupExecutor;
+import com.helospark.telnetsnake.StartupExecutor;
 
-public abstract class AbstractBaseTest extends AbstractTestNGSpringContextTests {
+public abstract class StartGameAbstractBaseTest extends AbstractTestNGSpringContextTests {
     protected Socket socket = null;
     protected PrintWriter printWriter;
     protected BufferedReader inputReader;
@@ -26,7 +24,7 @@ public abstract class AbstractBaseTest extends AbstractTestNGSpringContextTests 
             socket = new Socket("localhost", serverSocket.getLocalPort());
             printWriter = new PrintWriter(socket.getOutputStream(), true);
             inputReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            startupExecutor.start(emptyList());
+            startupExecutor.start(new String[] { "start" });
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

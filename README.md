@@ -12,7 +12,39 @@ A snake game that can be played via regular telnet. Also has a secondary functio
 
 then you can run the jar in the target folder with
 
-      java -jar telnet-snake-{VERSION}.jar
+      java -jar telnet-snake-{VERSION}.jar start
+
+### Usage
+
+    java -jar jarfile [options] command [command options]
+      Options:
+        -h, --help
+          Display usage
+      Commands:
+        start      Start server
+          Usage: start
+    
+        sql      Run SQL commands
+          Usage: sql [options]
+            Options:
+              -s, --sql
+                SQL command, if absent interactive SQL terminal is shown
+    
+        display      Display games
+          Usage: display [options]
+            Options:
+              -n, -l, --limit
+                Number of games to display (if not specified all)
+    
+        toplist      Display toplist
+          Usage: toplist [options]
+            Options:
+              -n, -l, --limit
+                Number of entries to display
+    
+        stop      Stop the running server
+          Usage: stop
+
 
 ## Configuration
 

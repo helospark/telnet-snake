@@ -37,7 +37,7 @@ public class InMemoryDatabaseConfiguration {
         String url = "jdbc:h2:mem:test";
         Connection connection = DriverManager.getConnection(url);
         initializeConnection(connection);
-        LOGGER.info("Created mock logger");
+        LOGGER.info("Created mock database");
         return connection;
     }
 
@@ -54,6 +54,7 @@ public class InMemoryDatabaseConfiguration {
 
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

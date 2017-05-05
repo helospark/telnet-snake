@@ -22,7 +22,7 @@ import com.helospark.telnetsnake.server.socket.ServerSocketProvider;
 @TestPropertySource(locations = "classpath:test_settings.properties", properties = { "MAX_CONNECTION_FROM_SAME_IP=1" })
 @ContextConfiguration(locations = { "classpath:spring-context.xml" })
 @DirtiesContext
-public class TestConnectionFlooding extends AbstractBaseTest {
+public class TestConnectionFlooding extends StartGameAbstractBaseTest {
 
     @Autowired
     private ServerSocketProvider serverSocketProvider;

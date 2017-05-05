@@ -5,29 +5,55 @@ import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import com.helospark.telnetsnake.StartupCommand;
+import com.beust.jcommander.JCommander;
+import com.helospark.telnetsnake.output.ScreenWriter;
+import com.helospark.telnetsnake.parameters.FreeSqlCommandParameters;
 import com.helospark.telnetsnake.repository.configuration.ConnectionProvider;
 
 @Component
 public class FreeSqlCommand implements StartupCommand {
     @Autowired
-    @Lazy
     private ConnectionProvider connectionProvider;
+    @Autowired
+    private ScreenWriter screenWriter;
 
     @Override
-    public void execute(List<String> args) {
+    public void execute(Object commandObject) {
+        FreeSqlCommandParameters freeSqlCommandParameters = (FreeSqlCommandParameters) commandObject;
+
+        if (freeSqlCommandParameters.getSql().isPresent()) {
+            executeSingleCommand(freeSqlCommandParameters.getSql().get());
+        } else {
+            startInteractiveSqlTerminal();
+        }
+
+    }
+
+    private void executeSingleCommand(String sql) {
+        try {
+            executeSql(sql);
+        } catch (SQLException e) {
+            screenWriter.printlnToScreen("Error executing SQL");
+            screenWriter.printlnToScreen(e);
+        }
+    }
+
+    private void startInteractiveSqlTerminal() {
+        screenWriter.printlnToScreen("DB schema: snake_game_result (\n" +
+                "ip VARCHAR(20) NOT NULL,\n" +
+                "points INTEGER NOT NULL,\n" +
+                "date DATETIME NOT NULL,\n" +
+                "userInput TEXT NOT NULL)\n");
+        screenWriter.printlnToScreen("Type 'exit' or ctrl+c to exit from interactive session");
         try {
             BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
             while (true) {
-                System.out.print("sql: ");
-                System.out.flush();
+                screenWriter.printToScreen("sql: ");
                 String line = buffer.readLine();
                 if (line.equalsIgnoreCase("exit")) {
                     break;
@@ -53,23 +79,30 @@ public class FreeSqlCommand implements StartupCommand {
     }
 
     private void printResultSet(ResultSet result) throws SQLException {
+        StringBuilder stringBuilder = new StringBuilder();
         int columnCount = result.getMetaData().getColumnCount();
         for (int i = 1; i < columnCount + 1; ++i) {
-            System.out.print(result.getMetaData().getColumnName(i) + "\t|\t");
+            stringBuilder.append(result.getMetaData().getColumnName(i) + "\t|\t");
         }
-        System.out.println();
+        stringBuilder.append("\n");
 
         while (result.next()) {
             for (int i = 1; i < columnCount + 1; ++i) {
-                System.out.print(result.getObject(i) + "\t|\t");
+                stringBuilder.append(result.getObject(i) + "\t|\t");
             }
-            System.out.println();
+            stringBuilder.append("\n");
         }
+        screenWriter.printlnToScreen(stringBuilder.toString());
     }
 
     @Override
-    public boolean canHandle(Optional<String> commandName) {
-        return commandName.isPresent() && commandName.get().equals("freesql");
+    public boolean canHandle(JCommander jCommander) {
+        return Objects.equals(jCommander.getParsedCommand(), FreeSqlCommandParameters.COMMAND_NAME);
+    }
+
+    @Override
+    public Object createCommandObject() {
+        return new FreeSqlCommandParameters();
     }
 
 }

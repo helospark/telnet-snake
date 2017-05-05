@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<property name="PATTERN"
-		value="%d{HH:mm:ss.SSS} [%thread] %level [user_ip=%mdc{user_ip}] %logger - %msg %n" />
+		value="%d [%thread] %level [user_ip=%mdc{user_ip}] %logger - %msg %n" />
 	<!-- Console log -->
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
@@ -39,12 +39,12 @@
     <!-- Settings per packages -->
     <logger name="com.helospark.telnetsnake.server.game" additivity="false">
         <level value="INFO" />
-        <appender-ref ref="CONSOLE" />
+<!--         <appender-ref ref="CONSOLE" /> -->
         <appender-ref ref="ASYNC_GAMEPLAY_FILE_APPENDER" />
     </logger>
     <root>
         <level value="INFO" />
-        <appender-ref ref="CONSOLE" />
+<!--         <appender-ref ref="CONSOLE" /> -->
         <appender-ref ref="ASYNC_GENERAL_FILE_APPENDER" />
     </root>
     

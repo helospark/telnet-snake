@@ -23,7 +23,7 @@ import com.helospark.telnetsnake.server.socket.ServerSocketProvider;
 @TestPropertySource(locations = "classpath:test_settings.properties")
 @ContextConfiguration(locations = { "classpath:spring-context.xml" })
 @DirtiesContext
-public class TestCodeInjection extends AbstractBaseTest {
+public class TestCodeInjection extends StartGameAbstractBaseTest {
     @Autowired
     private Connection connection;
 

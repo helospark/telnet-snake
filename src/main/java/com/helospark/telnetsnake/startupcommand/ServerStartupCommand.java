@@ -1,12 +1,12 @@
 package com.helospark.telnetsnake.startupcommand;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.helospark.telnetsnake.StartupCommand;
+import com.beust.jcommander.JCommander;
+import com.helospark.telnetsnake.parameters.StartupCommandParameters;
 import com.helospark.telnetsnake.server.PortGameServerOrchestrator;
 import com.helospark.telnetsnake.server.ShutdownListener;
 import com.helospark.telnetsnake.server.SnakeGameServer;
@@ -19,14 +19,20 @@ public class ServerStartupCommand implements StartupCommand {
     private ShutdownListener shutdownListener;
 
     @Override
-    public void execute(List<String> args) {
+    public void execute(Object commandObject) {
+        StartupCommandParameters stopCommandParameters = (StartupCommandParameters) commandObject;
         shutdownListener.startListeningForShutdown();
         Thread thread = new Thread(new SnakeGameServer(portGameServer));
         thread.start();
     }
 
     @Override
-    public boolean canHandle(Optional<String> commandName) {
-        return !commandName.isPresent() || commandName.get().equals("start");
+    public boolean canHandle(JCommander jCommander) {
+        return Objects.equals(jCommander.getParsedCommand(), StartupCommandParameters.COMMAND_NAME);
+    }
+
+    @Override
+    public Object createCommandObject() {
+        return new StartupCommandParameters();
     }
 }
