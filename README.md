@@ -20,6 +20,8 @@ then you can run the jar in the target folder with
       Options:
         -h, --help
           Display usage
+        -v, --version
+          Display version
       Commands:
         start      Start server
           Usage: start
@@ -45,6 +47,19 @@ then you can run the jar in the target folder with
         stop      Stop the running server
           Usage: stop
 
+### Example
+
+To start the server
+
+      java -jar telnet-snake-{VERSION}.jar start
+
+To stop the server
+
+      java -jar telnet-snake-{VERSION}.jar stop
+
+To display all user inputs (could be a lot and you might want to limit it after a while):
+
+      java -jar telnet-snake-{VERSION}.jar display
 
 ## Configuration
 
@@ -128,3 +143,10 @@ Under environment/fail2ban folder I have defined 3 filters
  - Too many exception (if a user found a way to get exceptions from this application, that's a problem, so we ban them)
 
 Also append the content of jail.conf at the end of you fail2ban's jail.conf.
+
+## Limitation
+
+Telnet was not designed to play games on it, therefore the telnet client itself imposes some limitations. I observed the followings:
+
+ - Linux telnet client buffers input, which means enter has to be pressed to input the new direction of the snake. But it also buffers the output so the game is stable.
+ - Windows telnet on the other hand does not buffer, so you can press direction changing keys just like a real game, but it does not buffer output causing it to be flickery (as the lines jump up and down). Usually becomes less of an issue, after a couple of seconds.
