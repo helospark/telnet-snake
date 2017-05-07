@@ -25,7 +25,7 @@ public class ConnectionFactory {
     public Connection configureRepository() {
         try {
             LOGGER.info("Initializing database connection...");
-            String url = "jdbc:h2:" + databaseFilePath + ";AUTO_SERVER=TRUE;retention_time=1000";
+            String url = "jdbc:h2:" + databaseFilePath + ";AUTO_SERVER=TRUE;retention_time=1000;mv_store=false";
             Connection connection = DriverManager.getConnection(url);
             initializeConnection(connection);
             LOGGER.info("Database connection initialized");
