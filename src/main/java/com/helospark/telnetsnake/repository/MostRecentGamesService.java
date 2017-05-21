@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,7 @@ import com.helospark.telnetsnake.server.game.domain.SnakeGameResultDto;
 
 @Component
 public class MostRecentGamesService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MostRecentGamesService.class);
     @Autowired
     private ConnectionProvider connectionProvider;
 
@@ -32,7 +35,7 @@ public class MostRecentGamesService {
             ResultSet resultSet = selectStatement.executeQuery(update);
             return resultSetConverter.convert(resultSet);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error while selecting most recent games", e);
             return emptyList();
         }
     }
@@ -45,7 +48,7 @@ public class MostRecentGamesService {
             ResultSet resultSet = selectStatement.executeQuery(sql);
             return resultSetConverter.convert(resultSet);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error while selecting most recent games", e);
             return emptyList();
         }
     }
@@ -61,7 +64,7 @@ public class MostRecentGamesService {
             ResultSet resultSet = selectStatement.executeQuery(update);
             return resultSetConverter.convert(resultSet);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error while selecting most recent games", e);
             return emptyList();
         }
     }

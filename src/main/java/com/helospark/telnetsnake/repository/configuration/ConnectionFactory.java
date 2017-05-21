@@ -41,7 +41,7 @@ public class ConnectionFactory {
             Statement statement = connection.createStatement();
             statement.execute(initialSql);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error while initalizing connection", e);
         }
     }
 }
