@@ -3,6 +3,8 @@ package com.helospark.telnetsnake.repository;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
@@ -14,6 +16,7 @@ import com.helospark.telnetsnake.server.game.domain.SnakeGameResultDto;
 
 @Component
 public class ResultSaveService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResultSaveService.class);
     @Autowired
     @Lazy
     private ConnectionProvider connectionProvider;
@@ -36,7 +39,7 @@ public class ResultSaveService {
             prepareStatement.setString(4, databaseUserInputContent);
             prepareStatement.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error while saving result", e);
         }
     }
 
