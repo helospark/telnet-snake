@@ -7,7 +7,6 @@ import java.util.concurrent.ExecutorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.helospark.telnetsnake.server.domain.ClientConnectionData;
@@ -16,7 +15,6 @@ import com.helospark.telnetsnake.server.domain.ClientConnectionData;
 public class ShutdownHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(ShutdownHandler.class);
     @Autowired
-    @Lazy
     private ExecutorService executorService;
 
     public void stopGames(List<ClientConnectionData> connectedClients) {

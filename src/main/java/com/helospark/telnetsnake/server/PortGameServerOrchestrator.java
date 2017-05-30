@@ -2,6 +2,7 @@ package com.helospark.telnetsnake.server;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,13 +36,13 @@ public class PortGameServerOrchestrator {
 
     public void start() {
         LOGGER.info("Server started");
-        boolean isRunning = true;
         List<ClientConnectionData> connectedClients = new ArrayList<>();
-        while (isRunningPredicate.test()) {
+        ServerSocket serverSocket = createServerSocket();
+        while (isRunningPredicate.test() && !serverSocket.isClosed()) {
             try {
-                ServerSocket serverSocket = serverSocketProvider.provideActiveServerSocket();
                 Socket clientSocket = serverSocket.accept();
-                ClientConnectionData clientConnectionData = clientConnectionDataFactory.createConnectionData(clientSocket);
+                ClientConnectionData clientConnectionData = clientConnectionDataFactory
+                        .createConnectionData(clientSocket);
                 if (isClientAllowedToConnectPredicate.test(connectedClients, clientConnectionData)) {
                     LOGGER.info("Connection accepted from " + clientConnectionData.clientIp);
                     clientConnectionAllowerHandler.connectClient(clientConnectionData);
@@ -50,12 +51,24 @@ public class PortGameServerOrchestrator {
                     LOGGER.info("Connection denied from " + clientConnectionData.clientIp);
                     clientConnectionDeniedHandler.denyClient(clientConnectionData);
                 }
-            } catch (Exception ex) {
+            } catch (SocketTimeoutException ex) {
                 connectedClients = expiredConnectionFilter.filter(connectedClients);
+            } catch (Exception e) {
+                connectedClients = expiredConnectionFilter.filter(connectedClients);
+                LOGGER.error("Unexpected exception", e);
             }
         }
         shutdownHandler.stopGames(connectedClients);
         LOGGER.info("Shutdown complete");
+    }
+
+    private ServerSocket createServerSocket() {
+        try {
+            return serverSocketProvider.provideActiveServerSocket();
+        } catch (Exception e) {
+            LOGGER.error("Unable to open server socket, most likely port is already used", e);
+            throw new RuntimeException(e);
+        }
     }
 
 }

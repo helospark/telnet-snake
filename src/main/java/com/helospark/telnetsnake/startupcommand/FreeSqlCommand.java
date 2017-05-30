@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
 
+import org.hsqldb.jdbc.JDBCClobClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,7 +49,7 @@ public class FreeSqlCommand implements StartupCommand {
                 "ip VARCHAR(20) NOT NULL,\n" +
                 "points INTEGER NOT NULL,\n" +
                 "date DATETIME NOT NULL,\n" +
-                "userInput TEXT NOT NULL)\n");
+                "userInput CLOB NOT NULL)\n");
         screenWriter.printlnToScreen("Type 'exit' or ctrl+c to exit from interactive session");
         try {
             BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
@@ -88,7 +89,14 @@ public class FreeSqlCommand implements StartupCommand {
 
         while (result.next()) {
             for (int i = 1; i < columnCount + 1; ++i) {
-                stringBuilder.append(result.getObject(i) + "\t|\t");
+
+                Object currentValue = result.getObject(i);
+                if (currentValue instanceof JDBCClobClient) {
+                    String value = ((JDBCClobClient) currentValue).getSubString(1, 1024);
+                    stringBuilder.append(value + "\t|\t");
+                } else {
+                    stringBuilder.append(currentValue.toString() + "\t|\t");
+                }
             }
             stringBuilder.append("\n");
         }

@@ -30,6 +30,6 @@ public class FreeSqlTest extends AbstractTestNGSpringContextTests {
 
         // THEN
         verify(screenWriter).printlnToScreen("IP\t|\tPOINTS\t|\tDATE\t|\tUSERINPUT\t|\t\n" +
-                "1.2.3.4\t|\t10\t|\t2017-01-01 00:00:00.0\t|\tclob0: 'data'\t|\t\n");
+                "1.2.3.4\t|\t10\t|\t2017-01-01 00:00:00.0\t|\tdata\t|\t\n");
     }
 }

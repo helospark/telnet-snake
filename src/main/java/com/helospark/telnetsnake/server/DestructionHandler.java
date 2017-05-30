@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.helospark.telnetsnake.repository.configuration.ConnectionProvider;
+import com.helospark.telnetsnake.repository.configuration.HsqlAutoServerManager;
 import com.helospark.telnetsnake.server.socket.ServerSocketProvider;
 
 @Component
@@ -20,6 +21,8 @@ public class DestructionHandler {
     private ServerSocketProvider serverSocketProvider;
     @Autowired
     private ConnectionProvider connectionProvider;
+    @Autowired
+    private HsqlAutoServerManager hsqlAutoServerManager;
 
     @PreDestroy
     public void destroy() {
@@ -38,6 +41,11 @@ public class DestructionHandler {
             }
         } catch (SQLException e) {
             LOGGER.error("Unable to destroy database connection", e);
+        }
+        try {
+            hsqlAutoServerManager.shutdown();
+        } catch (Exception e) {
+            LOGGER.error("Error shutting down server", e);
         }
     }
 }

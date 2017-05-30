@@ -1,7 +1,5 @@
 package com.helospark.telnetsnake.output;
 
-import java.sql.SQLException;
-
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,7 +14,7 @@ public class ScreenWriter {
         System.out.flush();
     }
 
-    public void printlnToScreen(SQLException e) {
+    public void printlnToScreen(Exception e) {
         e.printStackTrace();
     }
 }

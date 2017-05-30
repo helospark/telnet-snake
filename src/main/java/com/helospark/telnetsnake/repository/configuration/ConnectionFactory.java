@@ -1,7 +1,6 @@
 package com.helospark.telnetsnake.repository.configuration;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.Statement;
 
 import org.slf4j.Logger;
@@ -18,6 +17,8 @@ public class ConnectionFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionFactory.class);
     @Autowired
     private ClassPathFileReader classPathFileReader;
+    @Autowired
+    private HsqlAutoServerManager hsqlAutoServerManager;
 
     @Value("${DATABASE_FILE_PATH}")
     private String databaseFilePath;
@@ -25,8 +26,7 @@ public class ConnectionFactory {
     public Connection configureRepository() {
         try {
             LOGGER.info("Initializing database connection...");
-            String url = "jdbc:h2:" + databaseFilePath + ";AUTO_SERVER=TRUE;retention_time=1000;mv_store=false";
-            Connection connection = DriverManager.getConnection(url);
+            Connection connection = hsqlAutoServerManager.createConnection();
             initializeConnection(connection);
             LOGGER.info("Database connection initialized");
             return connection;

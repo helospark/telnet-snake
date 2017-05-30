@@ -26,6 +26,7 @@ public class ShutdownListener {
                 acceptedConnection = serverSocket.accept();
             } catch (Exception e) {
                 LOGGER.error("Exception on shutdown listening", e);
+                throw new RuntimeException(e);
             }
         }
         LOGGER.info("Preparing to shut down...");

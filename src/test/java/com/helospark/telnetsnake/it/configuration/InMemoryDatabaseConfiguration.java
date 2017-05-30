@@ -34,8 +34,7 @@ public class InMemoryDatabaseConfiguration {
 
     @Bean
     public Connection createMockConnection() throws SQLException {
-        String url = "jdbc:h2:mem:test";
-        Connection connection = DriverManager.getConnection(url);
+        Connection connection = DriverManager.getConnection("jdbc:hsqldb:mem:aname", "sa", "");
         initializeConnection(connection);
         LOGGER.info("Created mock database");
         return connection;
