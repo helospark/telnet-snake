@@ -2,21 +2,31 @@ package com.helospark.telnetsnake.it;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
 import java.net.ServerSocket;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.helospark.telnetsnake.server.socket.ServerSocketProvider;
+import com.helospark.telnetsnake.game.server.game.FoodGenerator;
+import com.helospark.telnetsnake.game.server.game.domain.Coordinate;
+import com.helospark.telnetsnake.game.server.socket.ServerSocketProvider;
+import com.helospark.telnetsnake.it.TestBaseOperation.TestBaseOperationsITConfiguration;
 
 @TestPropertySource(locations = "classpath:test_settings.properties")
-@ContextConfiguration(locations = { "classpath:spring-context.xml" })
+@ContextConfiguration(classes = TestBaseOperationsITConfiguration.class)
 public class TestBaseOperation extends StartGameAbstractBaseTest {
     private static final String EXPECTED_FIRST_FRAME_WITHOUT_FOOD = "" +
             "Telnet snake! Use w,a,s,d,q commands (may need to press enter to flush)\n" +
@@ -120,6 +130,17 @@ public class TestBaseOperation extends StartGameAbstractBaseTest {
             return result.toString();
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Configuration
+    @ImportResource("classpath:spring-context.xml")
+    public static class TestBaseOperationsITConfiguration {
+        @Bean
+        public FoodGenerator foodGenerator() {
+            FoodGenerator foodGenerator = mock(FoodGenerator.class);
+            when(foodGenerator.generateFood(any(List.class))).thenReturn(new Coordinate(0, 0));
+            return foodGenerator;
         }
     }
 }

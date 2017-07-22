@@ -7,7 +7,7 @@ import org.springframework.beans.factory.BeanCreationException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import com.helospark.telnetsnake.server.game.badips.predicate.BadIpsWhitelistContainingPredicate;
+import com.helospark.telnetsnake.game.server.game.badips.predicate.BadIpsWhitelistContainingPredicate;
 
 public class BadIpsWhitelistContainingPredicateTest {
     private BadIpsWhitelistContainingPredicate underTest;

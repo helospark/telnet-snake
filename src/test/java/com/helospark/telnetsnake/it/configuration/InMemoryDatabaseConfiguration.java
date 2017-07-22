@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import com.helospark.telnetsnake.repository.ClassPathFileReader;
-import com.helospark.telnetsnake.repository.configuration.ConnectionProvider;
+import com.helospark.telnetsnake.game.repository.ClassPathFileReader;
+import com.helospark.telnetsnake.game.repository.configuration.ConnectionProvider;
 
 @Configuration
 public class InMemoryDatabaseConfiguration {
