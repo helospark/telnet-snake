@@ -16,8 +16,8 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.helospark.telnetsnake.StartupExecutor;
-import com.helospark.telnetsnake.startupcommand.help.SocketFactory;
+import com.helospark.telnetsnake.game.StartupExecutor;
+import com.helospark.telnetsnake.game.startupcommand.help.SocketFactory;
 
 @TestPropertySource(locations = "classpath:test_settings.properties")
 @ContextConfiguration(locations = { "classpath:spring-context.xml", "classpath:override-mocks.xml" })

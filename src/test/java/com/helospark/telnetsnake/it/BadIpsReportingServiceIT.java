@@ -17,7 +17,7 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import com.github.tomakehurst.wiremock.matching.RequestPatternBuilder;
-import com.helospark.telnetsnake.server.game.badips.BadIpsReportingService;
+import com.helospark.telnetsnake.game.server.game.badips.BadIpsReportingService;
 
 @TestPropertySource(locations = "classpath:bad_ips_mocked_settings.properties")
 @ContextConfiguration(locations = { "classpath:spring-context.xml" })

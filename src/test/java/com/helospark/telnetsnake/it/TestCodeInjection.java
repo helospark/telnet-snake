@@ -5,7 +5,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.File;
 import java.net.ServerSocket;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,14 +17,15 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.helospark.telnetsnake.server.socket.ServerSocketProvider;
+import com.helospark.telnetsnake.game.repository.configuration.ConnectionProvider;
+import com.helospark.telnetsnake.game.server.socket.ServerSocketProvider;
 
 @TestPropertySource(locations = "classpath:test_settings.properties")
 @ContextConfiguration(locations = { "classpath:spring-context.xml" })
 @DirtiesContext
 public class TestCodeInjection extends StartGameAbstractBaseTest {
     @Autowired
-    private Connection connection;
+    private ConnectionProvider connectionProvider;
 
     @Autowired
     private ServerSocketProvider serverSocketProvider;
@@ -81,7 +81,7 @@ public class TestCodeInjection extends StartGameAbstractBaseTest {
     }
 
     private void assertDatabaseContainsAtLeastOneEntries() throws SQLException {
-        Statement statement = connection.createStatement();
+        Statement statement = connectionProvider.get().createStatement();
         ResultSet rs = statement.executeQuery("SELECT * FROM snake_game_result");
         assertThat(rs.next(), is(true));
     }
