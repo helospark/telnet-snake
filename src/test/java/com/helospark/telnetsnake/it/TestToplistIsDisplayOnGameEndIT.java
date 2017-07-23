@@ -58,6 +58,7 @@ public class TestToplistIsDisplayOnGameEndIT extends StartGameAbstractBaseTest {
 
         // THEN
         String dataSentBack = readAllDataSentBack();
+        assertThat(dataSentBack, containsString("Thanx for playing! You finished with 0 points! Here is the toplist:"));
         assertThat(dataSentBack, containsString("1.\t10"));
         assertThat(dataSentBack, containsString("2.\t0 <- This is you (based on IP)"));
     }

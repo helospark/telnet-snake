@@ -15,10 +15,12 @@ import org.testng.annotations.Test;
 
 import com.helospark.telnetsnake.game.repository.TopListService;
 import com.helospark.telnetsnake.game.server.game.domain.SnakeGameResultDto;
+import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
+import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
 @TestPropertySource(locations = { "classpath:bad_ips_mocked_settings.properties",
         "classpath:test_settings.properties" })
-@ContextConfiguration(locations = { "classpath:spring-context.xml" })
+@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class, InMemoryDatabaseConfiguration.class })
 @DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
 public class TopListServiceIT extends AbstractTestNGSpringContextTests {
     @Autowired

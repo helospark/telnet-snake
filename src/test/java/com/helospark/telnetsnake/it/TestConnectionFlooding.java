@@ -18,9 +18,12 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.helospark.telnetsnake.game.server.socket.ServerSocketProvider;
+import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
+import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
 @TestPropertySource(locations = "classpath:test_settings.properties", properties = { "MAX_CONNECTION_FROM_SAME_IP=1" })
-@ContextConfiguration(locations = { "classpath:spring-context.xml" })
+@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class, InMemoryDatabaseConfiguration.class,
+        InMemoryDatabaseConfiguration.class })
 @DirtiesContext
 public class TestConnectionFlooding extends StartGameAbstractBaseTest {
 
@@ -48,7 +51,8 @@ public class TestConnectionFlooding extends StartGameAbstractBaseTest {
 
             // WHEN
             Socket secondConnection = new Socket("localhost", serverSocket.getLocalPort());
-            BufferedReader secondInputReader = new BufferedReader(new InputStreamReader(secondConnection.getInputStream()));
+            BufferedReader secondInputReader = new BufferedReader(
+                    new InputStreamReader(secondConnection.getInputStream()));
 
             // THEN
             assertThat(secondInputReader.readLine(), is("Too many connections"));
@@ -76,4 +80,5 @@ public class TestConnectionFlooding extends StartGameAbstractBaseTest {
             throw new RuntimeException(e);
         }
     }
+
 }

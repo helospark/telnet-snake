@@ -33,14 +33,14 @@ public class TopListService {
     @Value("${TOPLIST_SIZE}")
     private int maximumToplistSize;
 
-    private SortedSet<SnakeGameResultDto> toplistQueue;
+    private SortedSet<SnakeGameResultDto> toplistCache;
 
     @PostConstruct
     public void initializeInMemoryToplist() {
         try {
             List<SnakeGameResultDto> toplistAsList = getUncachedToplist(maximumToplistSize);
-            toplistQueue = new TreeSet<>(comparator);
-            toplistQueue.addAll(toplistAsList);
+            toplistCache = new TreeSet<>(comparator);
+            toplistCache.addAll(toplistAsList);
             LOGGER.info("Preinitialized inmemory toplist cache");
         } catch (Exception e) {
             LOGGER.error("Error while getting toplist", e);
@@ -61,18 +61,18 @@ public class TopListService {
     }
 
     public List<SnakeGameResultDto> getCachedTopList() {
-        synchronized (toplistQueue) {
-            return new ArrayList<>(toplistQueue);
+        synchronized (toplistCache) {
+            return new ArrayList<>(toplistCache);
         }
     }
 
     public void updateTopListWithResult(SnakeGameResultDto snakeGameResultDto) {
-        synchronized (toplistQueue) {
-            toplistQueue.add(snakeGameResultDto);
-            if (toplistQueue.size() > maximumToplistSize) {
-                TreeSet<SnakeGameResultDto> tmpSet = new TreeSet<>(comparator);
-                tmpSet.addAll(toplistQueue.headSet(toplistQueue.last()));
-                toplistQueue = tmpSet;
+        synchronized (toplistCache) {
+            if (toplistCache.size() < maximumToplistSize) {
+                toplistCache.add(snakeGameResultDto);
+            } else if (toplistCache.last().getPoints() < snakeGameResultDto.getPoints()) {
+                toplistCache.remove(toplistCache.last());
+                toplistCache.add(snakeGameResultDto);
             }
         }
     }

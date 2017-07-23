@@ -21,9 +21,13 @@ import org.testng.annotations.Test;
 
 import com.helospark.telnetsnake.game.server.game.IpExtractor;
 import com.helospark.telnetsnake.game.server.socket.ServerSocketProvider;
+import com.helospark.telnetsnake.it.configuration.BaseMockOverrideConfiguration;
+import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
+import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
 @TestPropertySource(locations = "classpath:test_settings.properties", properties = { "MAX_CONNECTIONS=1" })
-@ContextConfiguration(locations = { "classpath:spring-context.xml", "classpath:override-mocks.xml" })
+@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class, BaseMockOverrideConfiguration.class,
+        InMemoryDatabaseConfiguration.class })
 @DirtiesContext
 public class TestConnectionFloodingFromDifferentIps extends StartGameAbstractBaseTest {
 
@@ -58,7 +62,8 @@ public class TestConnectionFloodingFromDifferentIps extends StartGameAbstractBas
 
             // WHEN
             Socket secondConnection = new Socket("localhost", serverSocket.getLocalPort());
-            BufferedReader secondInputReader = new BufferedReader(new InputStreamReader(secondConnection.getInputStream()));
+            BufferedReader secondInputReader = new BufferedReader(
+                    new InputStreamReader(secondConnection.getInputStream()));
 
             // THEN
             assertThat(secondInputReader.readLine(), is("Too many connections"));

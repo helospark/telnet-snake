@@ -19,9 +19,12 @@ import org.testng.annotations.Test;
 
 import com.helospark.telnetsnake.game.repository.configuration.ConnectionProvider;
 import com.helospark.telnetsnake.game.server.socket.ServerSocketProvider;
+import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
+import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
 @TestPropertySource(locations = "classpath:test_settings.properties")
-@ContextConfiguration(locations = { "classpath:spring-context.xml" })
+@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class, InMemoryDatabaseConfiguration.class,
+        InMemoryDatabaseConfiguration.class })
 @DirtiesContext
 public class TestCodeInjection extends StartGameAbstractBaseTest {
     @Autowired
@@ -85,4 +88,5 @@ public class TestCodeInjection extends StartGameAbstractBaseTest {
         ResultSet rs = statement.executeQuery("SELECT * FROM snake_game_result");
         assertThat(rs.next(), is(true));
     }
+
 }

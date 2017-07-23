@@ -13,7 +13,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.testng.annotations.AfterMethod;
@@ -24,9 +23,12 @@ import com.helospark.telnetsnake.game.server.game.FoodGenerator;
 import com.helospark.telnetsnake.game.server.game.domain.Coordinate;
 import com.helospark.telnetsnake.game.server.socket.ServerSocketProvider;
 import com.helospark.telnetsnake.it.TestBaseOperation.TestBaseOperationsITConfiguration;
+import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
+import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
 @TestPropertySource(locations = "classpath:test_settings.properties")
-@ContextConfiguration(classes = TestBaseOperationsITConfiguration.class)
+@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class,
+        TestBaseOperationsITConfiguration.class, InMemoryDatabaseConfiguration.class })
 public class TestBaseOperation extends StartGameAbstractBaseTest {
     private static final String EXPECTED_FIRST_FRAME_WITHOUT_FOOD = "" +
             "Telnet snake! Use w,a,s,d,q commands (may need to press enter to flush)\n" +
@@ -134,7 +136,6 @@ public class TestBaseOperation extends StartGameAbstractBaseTest {
     }
 
     @Configuration
-    @ImportResource("classpath:spring-context.xml")
     public static class TestBaseOperationsITConfiguration {
         @Bean
         public FoodGenerator foodGenerator() {

@@ -18,9 +18,11 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import com.github.tomakehurst.wiremock.matching.RequestPatternBuilder;
 import com.helospark.telnetsnake.game.server.game.badips.BadIpsReportingService;
+import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
+import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
 @TestPropertySource(locations = "classpath:bad_ips_mocked_settings.properties")
-@ContextConfiguration(locations = { "classpath:spring-context.xml" })
+@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class, InMemoryDatabaseConfiguration.class })
 public class BadIpsReportingServiceIT extends AbstractTestNGSpringContextTests {
     // dynamic port would be nice here
     private static final int WIREMOCK_TEST_PORT = 32323;

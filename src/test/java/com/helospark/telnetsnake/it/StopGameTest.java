@@ -18,9 +18,13 @@ import org.testng.annotations.Test;
 
 import com.helospark.telnetsnake.game.StartupExecutor;
 import com.helospark.telnetsnake.game.startupcommand.help.SocketFactory;
+import com.helospark.telnetsnake.it.configuration.BaseMockOverrideConfiguration;
+import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
+import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
 @TestPropertySource(locations = "classpath:test_settings.properties")
-@ContextConfiguration(locations = { "classpath:spring-context.xml", "classpath:override-mocks.xml" })
+@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class, BaseMockOverrideConfiguration.class,
+        InMemoryDatabaseConfiguration.class })
 public class StopGameTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
