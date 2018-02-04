@@ -2,6 +2,8 @@ package com.helospark.telnetsnake.game.server;
 
 import java.util.concurrent.ExecutorService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -12,6 +14,8 @@ import com.helospark.telnetsnake.game.server.game.SnakeGameOrchestrator;
 
 @Component
 public class ClientConnectionAllowerHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientConnectionAllowerHandler.class);
+
     @Autowired
     @Lazy
     private ExecutorService executorService;
@@ -20,8 +24,12 @@ public class ClientConnectionAllowerHandler {
 
     public void connectClient(ClientConnectionData clientConnectionData) {
         executorService.execute(() -> {
-            MDC.put("user_ip", clientConnectionData.clientIp);
-            snakeGameOrchestrator.runSnakeGame(clientConnectionData.snakeIO);
+            try {
+                MDC.put("user_ip", clientConnectionData.clientIp);
+                snakeGameOrchestrator.runSnakeGame(clientConnectionData.snakeIO);
+            } catch (Exception e) {
+                LOGGER.error("Unhandled exception", e);
+            }
         });
     }
 }

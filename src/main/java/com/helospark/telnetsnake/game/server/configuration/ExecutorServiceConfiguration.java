@@ -18,4 +18,5 @@ public class ExecutorServiceConfiguration {
     public ExecutorService createThreadPoolExecutor() {
         return Executors.newFixedThreadPool(maxConnections);
     }
+
 }
