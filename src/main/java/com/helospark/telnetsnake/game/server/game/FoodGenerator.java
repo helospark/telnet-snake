@@ -3,8 +3,8 @@ package com.helospark.telnetsnake.game.server.game;
 import java.util.List;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Value;
+import com.helospark.lightdi.annotation.Component;
 
 import com.helospark.telnetsnake.game.server.game.domain.Coordinate;
 

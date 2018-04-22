@@ -4,8 +4,8 @@ import java.net.ServerSocket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Value;
+import com.helospark.lightdi.annotation.Component;
 
 @Component
 public class ServerSocketFactory {

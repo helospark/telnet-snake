@@ -5,11 +5,10 @@ import java.sql.Timestamp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.annotation.Component;
+import com.helospark.lightdi.annotation.Value;
 import com.helospark.telnetsnake.game.repository.configuration.ConnectionProvider;
 import com.helospark.telnetsnake.game.repository.logfile.ResultToFileSaver;
 import com.helospark.telnetsnake.game.server.game.domain.SnakeGameResultDto;
@@ -18,7 +17,6 @@ import com.helospark.telnetsnake.game.server.game.domain.SnakeGameResultDto;
 public class ResultSaveService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResultSaveService.class);
     @Autowired
-    @Lazy
     private ConnectionProvider connectionProvider;
     @Autowired
     private ResultToFileSaver resultToFileSaver;

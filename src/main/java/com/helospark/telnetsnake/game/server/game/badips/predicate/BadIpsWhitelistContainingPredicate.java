@@ -5,10 +5,10 @@ import java.util.function.Predicate;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.BeanCreationException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.annotation.Component;
+import com.helospark.lightdi.annotation.Value;
+import com.helospark.lightdi.exception.BeanCreationException;
 
 @Component
 public class BadIpsWhitelistContainingPredicate implements Predicate<String> {

@@ -3,10 +3,10 @@ package com.helospark.telnetsnake.game.server.configuration;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
+import com.helospark.lightdi.annotation.Bean;
+import com.helospark.lightdi.annotation.Configuration;
+import com.helospark.lightdi.annotation.Lazy;
+import com.helospark.lightdi.annotation.Value;
 
 @Configuration
 @Lazy

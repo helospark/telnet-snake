@@ -2,8 +2,8 @@ package com.helospark.telnetsnake.game.server;
 
 import java.net.Socket;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.annotation.Component;
 
 import com.helospark.telnetsnake.game.server.domain.ClientConnectionData;
 import com.helospark.telnetsnake.game.server.game.IpExtractor;

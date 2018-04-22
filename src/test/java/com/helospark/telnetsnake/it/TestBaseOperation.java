@@ -10,9 +10,9 @@ import java.io.BufferedReader;
 import java.net.ServerSocket;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.annotation.Bean;
+import com.helospark.lightdi.annotation.Configuration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.testng.annotations.AfterMethod;

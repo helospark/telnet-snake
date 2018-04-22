@@ -4,8 +4,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
 
-import org.springframework.util.StringUtils;
-
 /**
  * Copied from spring-security-web project.
  * Matches a request based on IP Address or subnet mask matching against the remote
@@ -31,7 +29,7 @@ public final class IpAddressMatcher {
     public IpAddressMatcher(String ipAddress) {
 
         if (ipAddress.indexOf('/') > 0) {
-            String[] addressAndMask = StringUtils.split(ipAddress, "/");
+            String[] addressAndMask = ipAddress.split("/");
             ipAddress = addressAndMask[0];
             nMaskBits = Integer.parseInt(addressAndMask[1]);
         } else {

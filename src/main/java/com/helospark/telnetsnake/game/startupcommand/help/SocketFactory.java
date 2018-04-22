@@ -3,7 +3,7 @@ package com.helospark.telnetsnake.game.startupcommand.help;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Component;
 
 @Component
 public class SocketFactory {

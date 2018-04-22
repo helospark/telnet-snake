@@ -3,10 +3,10 @@ package com.helospark.telnetsnake.server.game.badips.predicate;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.springframework.beans.factory.BeanCreationException;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.helospark.lightdi.exception.BeanCreationException;
 import com.helospark.telnetsnake.game.server.game.badips.predicate.BadIpsWhitelistContainingPredicate;
 
 public class BadIpsWhitelistContainingPredicateTest {

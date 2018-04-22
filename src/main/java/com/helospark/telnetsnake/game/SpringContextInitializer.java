@@ -2,11 +2,11 @@ package com.helospark.telnetsnake.game;
 
 import java.io.IOException;
 
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.helospark.lightdi.LightDi;
+import com.helospark.lightdi.LightDiContext;
 
 public class SpringContextInitializer {
-    private static ConfigurableApplicationContext context;
+    private static LightDiContext context;
 
     public static void main(String[] args) throws IOException {
         initializeDIFramework();
@@ -16,7 +16,7 @@ public class SpringContextInitializer {
     }
 
     private static void initializeDIFramework() {
-        context = new ClassPathXmlApplicationContext("classpath:spring-context.xml");
+        context = LightDi.initContextByClass(ApplicationConfiguration.class);
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {

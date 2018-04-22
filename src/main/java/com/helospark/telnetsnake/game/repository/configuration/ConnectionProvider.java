@@ -2,8 +2,8 @@ package com.helospark.telnetsnake.game.repository.configuration;
 
 import java.sql.Connection;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.annotation.Component;
 
 @Component
 public class ConnectionProvider {

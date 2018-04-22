@@ -3,7 +3,7 @@ package com.helospark.telnetsnake.game.repository;
 import java.time.ZoneOffset;
 import java.util.Comparator;
 
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Component;
 
 import com.helospark.telnetsnake.game.server.game.domain.SnakeGameResultDto;
 

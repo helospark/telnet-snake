@@ -5,21 +5,22 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.annotation.PropertySource;
+import com.helospark.lightdi.test.annotation.LightDiTest;
 import com.helospark.telnetsnake.game.StartupExecutor;
 import com.helospark.telnetsnake.game.output.ScreenWriter;
 import com.helospark.telnetsnake.it.configuration.BaseMockOverrideConfiguration;
 import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
 import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
-@TestPropertySource(locations = "classpath:test_settings.properties")
-@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class, BaseMockOverrideConfiguration.class,
+@PropertySource(order=0, value = "classpath:test_settings.properties")
+@LightDiTest(rootPackage = "", classes = { OriginalApplicationContextConfiguration.class, BaseMockOverrideConfiguration.class,
         InMemoryDatabaseConfiguration.class })
 public class VersionTest extends AbstractTestNGSpringContextTests {
     @Autowired

@@ -5,10 +5,10 @@ import java.net.Socket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
+
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.annotation.Component;
+import com.helospark.lightdi.annotation.Value;
 
 @Component
 public class ShutdownListener {
@@ -18,18 +18,19 @@ public class ShutdownListener {
     @Value("${SHUTDOWN_PORT}")
     private int shutdownPort;
 
-    @Async
     public void startListeningForShutdown() {
-        Socket acceptedConnection = null;
-        while (acceptedConnection == null) {
-            try (ServerSocket serverSocket = new ServerSocket(shutdownPort)) {
-                acceptedConnection = serverSocket.accept();
-            } catch (Exception e) {
-                LOGGER.error("Exception on shutdown listening", e);
-                throw new RuntimeException(e);
+        new Thread(() -> {
+            Socket acceptedConnection = null;
+            while (acceptedConnection == null) {
+                try (ServerSocket serverSocket = new ServerSocket(shutdownPort)) {
+                    acceptedConnection = serverSocket.accept();
+                } catch (Exception e) {
+                    LOGGER.error("Exception on shutdown listening", e);
+                    throw new RuntimeException(e);
+                }
             }
-        }
-        LOGGER.info("Preparing to shut down...");
-        isRunningPredicate.stop();
+            LOGGER.info("Preparing to shut down...");
+            isRunningPredicate.stop();
+        }).start();
     }
 }

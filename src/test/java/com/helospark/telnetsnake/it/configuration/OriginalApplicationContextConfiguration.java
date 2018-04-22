@@ -1,6 +1,6 @@
 package com.helospark.telnetsnake.it.configuration;
 
-import org.springframework.context.annotation.Configuration;
+import com.helospark.lightdi.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
 /**

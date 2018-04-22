@@ -3,7 +3,7 @@ package com.helospark.telnetsnake.game.server.game;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Component;
 
 import com.helospark.telnetsnake.game.server.game.domain.Coordinate;
 

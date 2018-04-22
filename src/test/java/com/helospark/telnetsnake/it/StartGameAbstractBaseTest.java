@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.helospark.lightdi.annotation.Autowired;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 
 import com.helospark.telnetsnake.game.StartupExecutor;

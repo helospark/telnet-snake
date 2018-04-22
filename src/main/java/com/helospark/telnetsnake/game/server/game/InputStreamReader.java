@@ -2,7 +2,7 @@ package com.helospark.telnetsnake.game.server.game;
 
 import java.io.InputStream;
 
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Component;
 
 @Component
 public class InputStreamReader {

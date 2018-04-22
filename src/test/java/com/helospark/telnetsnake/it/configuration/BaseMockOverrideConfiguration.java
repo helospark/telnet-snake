@@ -2,8 +2,8 @@ package com.helospark.telnetsnake.it.configuration;
 
 import static org.mockito.Mockito.mock;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import com.helospark.lightdi.annotation.Bean;
+import com.helospark.lightdi.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import com.helospark.telnetsnake.game.output.ScreenWriter;

@@ -2,7 +2,7 @@ package com.helospark.telnetsnake.game.jcommander;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Component;
 
 import com.beust.jcommander.JCommander;
 

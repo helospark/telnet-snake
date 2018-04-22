@@ -5,10 +5,9 @@ import java.util.concurrent.ExecutorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.annotation.Component;
 import com.helospark.telnetsnake.game.server.domain.ClientConnectionData;
 import com.helospark.telnetsnake.game.server.game.SnakeGameOrchestrator;
 
@@ -17,7 +16,6 @@ public class ClientConnectionAllowerHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientConnectionAllowerHandler.class);
 
     @Autowired
-    @Lazy
     private ExecutorService executorService;
     @Autowired
     private SnakeGameOrchestrator snakeGameOrchestrator;

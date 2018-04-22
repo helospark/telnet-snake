@@ -3,7 +3,7 @@ package com.helospark.telnetsnake.game.server;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Component;
 
 import com.helospark.telnetsnake.game.server.domain.ClientConnectionData;
 import com.helospark.telnetsnake.game.server.game.domain.SnakeIO;

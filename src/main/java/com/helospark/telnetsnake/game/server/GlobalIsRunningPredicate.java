@@ -1,6 +1,6 @@
 package com.helospark.telnetsnake.game.server;
 
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Component;
 
 @Component
 public class GlobalIsRunningPredicate {

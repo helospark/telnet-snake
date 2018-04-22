@@ -5,9 +5,9 @@ import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.annotation.Value;
+import com.helospark.lightdi.annotation.Component;
 
 import com.beust.jcommander.JCommander;
 import com.helospark.telnetsnake.game.output.ScreenWriter;

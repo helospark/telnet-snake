@@ -3,8 +3,8 @@ package com.helospark.telnetsnake.game;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.annotation.Component;
 
 import com.beust.jcommander.JCommander;
 import com.helospark.telnetsnake.game.jcommander.JCommanderArgumentParser;
