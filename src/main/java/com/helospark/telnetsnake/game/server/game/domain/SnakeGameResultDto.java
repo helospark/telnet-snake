@@ -44,6 +44,11 @@ public class SnakeGameResultDto {
     }
 
     @Override
+    public String toString() {
+        return "SnakeGameResultDto [ip=" + ip + ", points=" + points + ", localDateTime=" + localDateTime + ", allUserInputs=" + allUserInputs + "]";
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

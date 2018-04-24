@@ -1,28 +1,27 @@
 package com.helospark.telnetsnake.it;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.helospark.lightdi.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.MethodMode;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.test.annotation.LightDiTest;
+import com.helospark.lightdi.test.annotation.TestPropertySource;
+import com.helospark.lightdi.test.junit4.LightDiJUnitTestRunner;
+import com.helospark.telnetsnake.game.ApplicationConfiguration;
 import com.helospark.telnetsnake.game.repository.TopListService;
 import com.helospark.telnetsnake.game.server.game.domain.SnakeGameResultDto;
 import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
-import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
+@RunWith(LightDiJUnitTestRunner.class)
 @TestPropertySource(locations = { "classpath:bad_ips_mocked_settings.properties",
         "classpath:test_settings.properties" })
-@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class, InMemoryDatabaseConfiguration.class })
-@DirtiesContext(methodMode = MethodMode.AFTER_METHOD)
-public class TopListServiceIT extends AbstractTestNGSpringContextTests {
+@LightDiTest(classes = { ApplicationConfiguration.class, InMemoryDatabaseConfiguration.class })
+public class TopListServiceIT {
     @Autowired
     private TopListService topListService;
 

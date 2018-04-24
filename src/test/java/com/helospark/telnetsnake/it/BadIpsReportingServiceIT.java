@@ -5,25 +5,27 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 
-import com.helospark.lightdi.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import com.github.tomakehurst.wiremock.matching.RequestPatternBuilder;
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.test.annotation.LightDiTest;
+import com.helospark.lightdi.test.annotation.TestPropertySource;
+import com.helospark.lightdi.test.junit4.LightDiJUnitTestRunner;
+import com.helospark.telnetsnake.game.ApplicationConfiguration;
 import com.helospark.telnetsnake.game.server.game.badips.BadIpsReportingService;
 import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
-import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
+@RunWith(LightDiJUnitTestRunner.class)
 @TestPropertySource(locations = "classpath:bad_ips_mocked_settings.properties")
-@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class, InMemoryDatabaseConfiguration.class })
-public class BadIpsReportingServiceIT extends AbstractTestNGSpringContextTests {
+@LightDiTest(classes = { ApplicationConfiguration.class, InMemoryDatabaseConfiguration.class })
+public class BadIpsReportingServiceIT {
     // dynamic port would be nice here
     private static final int WIREMOCK_TEST_PORT = 32323;
 
@@ -33,7 +35,7 @@ public class BadIpsReportingServiceIT extends AbstractTestNGSpringContextTests {
     private WireMockServer wireMockServer;
     private WireMock wireMock;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         wireMockServer = new WireMockServer(wireMockConfig().port(32323));
         wireMockServer.start();
@@ -57,7 +59,7 @@ public class BadIpsReportingServiceIT extends AbstractTestNGSpringContextTests {
                         .withBody(successResponse)));
     }
 
-    @AfterMethod
+    @After
     public void tearDown() {
         wireMockServer.stop();
     }

@@ -10,11 +10,11 @@ import java.sql.Statement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.helospark.lightdi.annotation.Autowired;
 import com.helospark.lightdi.annotation.Bean;
 import com.helospark.lightdi.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-
+import com.helospark.lightdi.annotation.Primary;
 import com.helospark.telnetsnake.game.repository.ClassPathFileReader;
 import com.helospark.telnetsnake.game.repository.configuration.ConnectionProvider;
 

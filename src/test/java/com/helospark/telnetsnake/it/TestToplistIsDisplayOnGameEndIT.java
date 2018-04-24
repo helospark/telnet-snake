@@ -10,39 +10,45 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import com.helospark.lightdi.annotation.Autowired;
 import com.helospark.lightdi.annotation.Bean;
 import com.helospark.lightdi.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
+import com.helospark.lightdi.annotation.Primary;
+import com.helospark.lightdi.test.annotation.LightDiTest;
+import com.helospark.lightdi.test.annotation.TestPropertySource;
+import com.helospark.lightdi.test.junit4.LightDiJUnitTestRunner;
+import com.helospark.telnetsnake.game.ApplicationConfiguration;
+import com.helospark.telnetsnake.game.StartupExecutor;
 import com.helospark.telnetsnake.game.server.game.FoodGenerator;
 import com.helospark.telnetsnake.game.server.game.domain.Coordinate;
 import com.helospark.telnetsnake.game.server.socket.ServerSocketProvider;
 import com.helospark.telnetsnake.it.TestToplistIsDisplayOnGameEndIT.TestToplistIsDisplayOnGameEndITConfiguration;
 import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
 
+@RunWith(LightDiJUnitTestRunner.class)
 @TestPropertySource(locations = "classpath:test_settings.properties")
-@ContextConfiguration(classes = { TestToplistIsDisplayOnGameEndITConfiguration.class,
+@LightDiTest(classes = { ApplicationConfiguration.class, TestToplistIsDisplayOnGameEndITConfiguration.class,
         InMemoryDatabaseConfiguration.class })
-@DirtiesContext
 public class TestToplistIsDisplayOnGameEndIT extends StartGameAbstractBaseTest {
     @Autowired
     private ServerSocketProvider serverSocketProvider;
+    @Autowired
+    private StartupExecutor startupExecutor;
+
     private ServerSocket serverSocket;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         serverSocket = serverSocketProvider.provideActiveServerSocket();
-        super.initialize(serverSocket);
+        super.initialize(startupExecutor, serverSocket);
     }
 
-    @AfterMethod
+    @After
     @Override
     public void tearDown() {
         // TODO Auto-generated method stub
@@ -73,9 +79,9 @@ public class TestToplistIsDisplayOnGameEndIT extends StartGameAbstractBaseTest {
     }
 
     @Configuration
-    @ImportResource("classpath:spring-context.xml")
     public static class TestToplistIsDisplayOnGameEndITConfiguration {
         @Bean
+        @Primary
         public FoodGenerator foodGenerator() {
             FoodGenerator foodGenerator = mock(FoodGenerator.class);
             when(foodGenerator.generateFood(any(List.class))).thenReturn(new Coordinate(0, 0));

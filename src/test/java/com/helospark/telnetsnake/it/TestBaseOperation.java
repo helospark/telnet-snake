@@ -10,24 +10,28 @@ import java.io.BufferedReader;
 import java.net.ServerSocket;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import com.helospark.lightdi.annotation.Autowired;
 import com.helospark.lightdi.annotation.Bean;
 import com.helospark.lightdi.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
+import com.helospark.lightdi.test.annotation.LightDiTest;
+import com.helospark.lightdi.test.annotation.TestPropertySource;
+import com.helospark.lightdi.test.junit4.LightDiJUnitTestRunner;
+import com.helospark.telnetsnake.game.ApplicationConfiguration;
+import com.helospark.telnetsnake.game.StartupExecutor;
 import com.helospark.telnetsnake.game.server.game.FoodGenerator;
 import com.helospark.telnetsnake.game.server.game.domain.Coordinate;
 import com.helospark.telnetsnake.game.server.socket.ServerSocketProvider;
 import com.helospark.telnetsnake.it.TestBaseOperation.TestBaseOperationsITConfiguration;
 import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
-import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
+@RunWith(LightDiJUnitTestRunner.class)
 @TestPropertySource(locations = "classpath:test_settings.properties")
-@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class,
+@LightDiTest(classes = { ApplicationConfiguration.class,
         TestBaseOperationsITConfiguration.class, InMemoryDatabaseConfiguration.class })
 public class TestBaseOperation extends StartGameAbstractBaseTest {
     private static final String EXPECTED_FIRST_FRAME_WITHOUT_FOOD = "" +
@@ -85,15 +89,17 @@ public class TestBaseOperation extends StartGameAbstractBaseTest {
     @Autowired
     private ServerSocketProvider serverSocketProvider;
     private ServerSocket serverSocket;
+    @Autowired
+    private StartupExecutor startupExecutor;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         this.serverSocket = serverSocketProvider.provideActiveServerSocket();
-        super.initialize(serverSocket);
+        super.initialize(startupExecutor, serverSocket);
     }
 
     @Override
-    @AfterMethod
+    @After
     public void tearDown() {
         super.tearDown();
     }

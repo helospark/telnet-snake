@@ -8,24 +8,26 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import com.helospark.lightdi.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.test.annotation.LightDiTest;
+import com.helospark.lightdi.test.annotation.TestPropertySource;
+import com.helospark.lightdi.test.junit4.LightDiJUnitTestRunner;
+import com.helospark.telnetsnake.game.ApplicationConfiguration;
 import com.helospark.telnetsnake.game.StartupExecutor;
 import com.helospark.telnetsnake.game.startupcommand.help.SocketFactory;
 import com.helospark.telnetsnake.it.configuration.BaseMockOverrideConfiguration;
 import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
-import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
+@RunWith(LightDiJUnitTestRunner.class)
 @TestPropertySource(locations = "classpath:test_settings.properties")
-@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class, BaseMockOverrideConfiguration.class,
+@LightDiTest(classes = { ApplicationConfiguration.class, BaseMockOverrideConfiguration.class,
         InMemoryDatabaseConfiguration.class })
-public class StopGameTest extends AbstractTestNGSpringContextTests {
+public class StopGameTest {
 
     @Autowired
     private SocketFactory mockSocketFactory;
@@ -38,7 +40,7 @@ public class StopGameTest extends AbstractTestNGSpringContextTests {
     @Mock
     private InetSocketAddress inetSocketAddress;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         initMocks(this);
     }

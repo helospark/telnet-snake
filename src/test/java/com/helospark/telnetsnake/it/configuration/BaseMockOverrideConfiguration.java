@@ -4,8 +4,7 @@ import static org.mockito.Mockito.mock;
 
 import com.helospark.lightdi.annotation.Bean;
 import com.helospark.lightdi.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-
+import com.helospark.lightdi.annotation.Primary;
 import com.helospark.telnetsnake.game.output.ScreenWriter;
 import com.helospark.telnetsnake.game.server.game.IpExtractor;
 import com.helospark.telnetsnake.game.startupcommand.help.SocketFactory;

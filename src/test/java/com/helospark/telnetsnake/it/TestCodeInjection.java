@@ -9,23 +9,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.helospark.lightdi.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import com.helospark.lightdi.annotation.Autowired;
+import com.helospark.lightdi.test.annotation.LightDiTest;
+import com.helospark.lightdi.test.annotation.TestPropertySource;
+import com.helospark.lightdi.test.junit4.LightDiJUnitTestRunner;
+import com.helospark.telnetsnake.game.ApplicationConfiguration;
+import com.helospark.telnetsnake.game.StartupExecutor;
 import com.helospark.telnetsnake.game.repository.configuration.ConnectionProvider;
 import com.helospark.telnetsnake.game.server.socket.ServerSocketProvider;
 import com.helospark.telnetsnake.it.configuration.InMemoryDatabaseConfiguration;
-import com.helospark.telnetsnake.it.configuration.OriginalApplicationContextConfiguration;
 
+@RunWith(LightDiJUnitTestRunner.class)
 @TestPropertySource(locations = "classpath:test_settings.properties")
-@ContextConfiguration(classes = { OriginalApplicationContextConfiguration.class, InMemoryDatabaseConfiguration.class,
+@LightDiTest(classes = { ApplicationConfiguration.class, InMemoryDatabaseConfiguration.class,
         InMemoryDatabaseConfiguration.class })
-@DirtiesContext
 public class TestCodeInjection extends StartGameAbstractBaseTest {
     @Autowired
     private ConnectionProvider connectionProvider;
@@ -33,14 +35,16 @@ public class TestCodeInjection extends StartGameAbstractBaseTest {
     @Autowired
     private ServerSocketProvider serverSocketProvider;
     private ServerSocket serverSocket;
+    @Autowired
+    private StartupExecutor startupExecutor;
 
-    @BeforeMethod
+    @Before
     public void setUp() {
         serverSocket = serverSocketProvider.provideActiveServerSocket();
-        super.initialize(serverSocket);
+        super.initialize(startupExecutor, serverSocket);
     }
 
-    @AfterMethod
+    @After
     @Override
     public void tearDown() {
         // TODO Auto-generated method stub

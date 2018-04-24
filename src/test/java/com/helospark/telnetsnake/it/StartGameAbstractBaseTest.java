@@ -6,20 +6,14 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import com.helospark.lightdi.annotation.Autowired;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-
 import com.helospark.telnetsnake.game.StartupExecutor;
 
-public abstract class StartGameAbstractBaseTest extends AbstractTestNGSpringContextTests {
+public abstract class StartGameAbstractBaseTest {
     protected Socket socket = null;
     protected PrintWriter printWriter;
     protected BufferedReader inputReader;
 
-    @Autowired
-    private StartupExecutor startupExecutor;
-
-    public void initialize(ServerSocket serverSocket) {
+    public void initialize(StartupExecutor startupExecutor, ServerSocket serverSocket) {
         try {
             socket = new Socket("localhost", serverSocket.getLocalPort());
             printWriter = new PrintWriter(socket.getOutputStream(), true);
