@@ -32,9 +32,9 @@ public class InMemoryDatabaseConfiguration {
         return connectionProvider;
     }
 
-    @Bean
     public Connection createMockConnection() throws SQLException {
         Connection connection = DriverManager.getConnection("jdbc:hsqldb:mem:aname", "sa", "");
+        connection.createStatement().execute("TRUNCATE SCHEMA public AND COMMIT"); // clear the DB, because the got connection is cached from previous test :(
         initializeConnection(connection);
         LOGGER.info("Created mock database");
         return connection;

@@ -7,14 +7,16 @@ import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.helospark.lightdi.annotation.Autowired;
 import com.helospark.lightdi.annotation.Component;
-
+import com.helospark.lightdi.annotation.Eager;
 import com.helospark.telnetsnake.game.repository.configuration.ConnectionProvider;
 import com.helospark.telnetsnake.game.repository.configuration.HsqlAutoServerManager;
 import com.helospark.telnetsnake.game.server.socket.ServerSocketProvider;
 
 @Component
+@Eager
 public class DestructionHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(DestructionHandler.class);
     @Autowired
