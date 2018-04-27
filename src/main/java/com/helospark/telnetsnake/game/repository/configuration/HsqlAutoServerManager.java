@@ -52,18 +52,31 @@ public class HsqlAutoServerManager {
             String portToConnect;
             File databasePortFile = new File(databaseFileName + AUTOSTART_SERVER_FILE_LOCK_POSTFIX);
             if (!databasePortFile.exists()) {
-                LOGGER.info("Creating new connection");
-                portToConnect = startNewServer();
-                writeServerPortToFile(databasePortFile, portToConnect);
-                LOGGER.info("Connection created on port: " + portToConnect);
+                portToConnect = startNewServerAndGetPort(databasePortFile);
             } else {
                 LOGGER.info(databasePortFile.getAbsolutePath() + " exists, initializing from there");
                 portToConnect = readServerPortFromFile(databasePortFile);
             }
-            return createJdbcHsqlConnectionToPort(portToConnect);
+            try {
+                return createJdbcHsqlConnectionToPort(portToConnect);
+            } catch (Exception e) {
+                LOGGER.warn("Unable to connect on " + portToConnect + ", creating new connection");
+                databasePortFile.delete();
+                portToConnect = startNewServerAndGetPort(databasePortFile);
+                return createJdbcHsqlConnectionToPort(portToConnect);
+            }
         } catch (Exception e) {
             throw new RuntimeException("Unable to create DB connection, check lock file", e);
         }
+    }
+
+    private String startNewServerAndGetPort(File databasePortFile) throws IOException, AclFormatException, FileNotFoundException {
+        String portToConnect;
+        LOGGER.info("Creating new connection");
+        portToConnect = startNewServer();
+        writeServerPortToFile(databasePortFile, portToConnect);
+        LOGGER.info("Connection created on port: " + portToConnect);
+        return portToConnect;
     }
 
     /**

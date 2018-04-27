@@ -10,9 +10,12 @@ public class SpringContextInitializer {
 
     public static void main(String[] args) throws IOException {
         initializeDIFramework();
-
-        StartupExecutor startupExecutor = context.getBean(StartupExecutor.class);
-        startupExecutor.start(args);
+        try {
+            StartupExecutor startupExecutor = context.getBean(StartupExecutor.class);
+            startupExecutor.start(args);
+        } finally {
+            closeContext();
+        }
     }
 
     private static void initializeDIFramework() {
@@ -20,8 +23,15 @@ public class SpringContextInitializer {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-                context.close();
+                closeContext();
             }
         });
+    }
+
+    private static void closeContext() {
+        if (context != null) {
+            context.close();
+            context = null;
+        }
     }
 }
