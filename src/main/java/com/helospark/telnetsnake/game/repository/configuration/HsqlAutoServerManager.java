@@ -60,7 +60,7 @@ public class HsqlAutoServerManager {
             try {
                 return createJdbcHsqlConnectionToPort(portToConnect);
             } catch (Exception e) {
-                LOGGER.warn("Unable to connect on " + portToConnect + ", creating new connection");
+                LOGGER.warn("Unable to connect on " + portToConnect + ", creating new connection", e);
                 databasePortFile.delete();
                 portToConnect = startNewServerAndGetPort(databasePortFile);
                 return createJdbcHsqlConnectionToPort(portToConnect);
@@ -102,6 +102,7 @@ public class HsqlAutoServerManager {
     }
 
     private HsqlProperties createHsqlProperties(String port) {
+        LOGGER.info("Creating database with file: " + databaseFileName);
         HsqlProperties properties = new HsqlProperties();
         properties.setProperty("server.database.0", "file:" + databaseFileName + ";hsqldb.write_delay=false");
         properties.setProperty("server.dbname.0", "mydb");

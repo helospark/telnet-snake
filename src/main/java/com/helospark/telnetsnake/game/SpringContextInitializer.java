@@ -10,12 +10,8 @@ public class SpringContextInitializer {
 
     public static void main(String[] args) throws IOException {
         initializeDIFramework();
-        try {
-            StartupExecutor startupExecutor = context.getBean(StartupExecutor.class);
-            startupExecutor.start(args);
-        } finally {
-            closeContext();
-        }
+        StartupExecutor startupExecutor = context.getBean(StartupExecutor.class);
+        startupExecutor.start(args);
     }
 
     private static void initializeDIFramework() {
