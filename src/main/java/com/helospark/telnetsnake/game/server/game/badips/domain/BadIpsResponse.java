@@ -1,7 +1,9 @@
 package com.helospark.telnetsnake.game.server.game.badips.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties
 public class BadIpsResponse {
     @JsonProperty("err")
     private String err;

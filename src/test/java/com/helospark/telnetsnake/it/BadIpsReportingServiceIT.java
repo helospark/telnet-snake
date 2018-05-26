@@ -44,7 +44,8 @@ public class BadIpsReportingServiceIT {
         String successResponse = ""
                 + "{"
                 + "   \"err\": \"\","
-                + "   \"suc\": \"OK\""
+                + "   \"suc\": \"OK\","
+                + "   \"key\": \"Some other data\""
                 + "}";
         wireMock.register(get(urlPathEqualTo("/add/telnet/1.2.3.4"))
                 .willReturn(aResponse()
