@@ -120,6 +120,12 @@ Your first (and usually the last) step should be to check logs:
 
 If there are no logs, make sure that `/var/log/telnet-snake/` location is writable by the user who is running the application.
 
+## Useful SQL commands
+
+Get all user inputs as raw text:
+
+      java -jar telnet-snake-{version}.jar sql -s "SELECT userInput from snake_game_result WHERE LENGTH(userInput)>0;"
+
 ## Integration with other programs
 
 On **Linux** integration with the following tools are recommended:
